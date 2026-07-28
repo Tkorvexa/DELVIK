@@ -88,10 +88,10 @@
                         id="buildForm"
                         action="https://formsubmit.co/build@korvexa.co"
                         method="POST"
+                        target="formSubmitFrame"
                     >
                         <input type="hidden" name="_subject" value="New KORVEXA Build website enquiry">
                         <input type="hidden" name="_template" value="table">
-                        <input type="hidden" name="_next" value="https://www.korvexa.co/thank-you.html">
                         <input type="hidden" name="_url" value="https://www.korvexa.co/contact-build.html">
                         <input type="hidden" name="_captcha" value="false">
                         <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
@@ -134,6 +134,7 @@
                             <div id="buildMsg" class="form-message" hidden></div>
                         </div>
                     </form>
+                    <iframe id="formSubmitFrame" name="formSubmitFrame" title="Form submission response" hidden></iframe>
                 </div>
 
                 <div class="contact-details">
@@ -197,38 +198,29 @@
         document.getElementById("y").textContent = new Date().getFullYear();
 
         const buildForm = document.getElementById("buildForm");
+        const formSubmitFrame = document.getElementById("formSubmitFrame");
+        let formSubmissionPending = false;
 
-        buildForm.addEventListener("submit", async function (event) {
-            event.preventDefault();
-
+        buildForm.addEventListener("submit", function () {
             const button = document.getElementById("buildSubmitBtn");
             const message = document.getElementById("buildMsg");
             const email = document.getElementById("email").value.trim();
 
             document.getElementById("replyTo").value = email;
+            formSubmissionPending = true;
             button.disabled = true;
             button.textContent = "Sending...";
             message.hidden = true;
             message.textContent = "";
+        });
 
-            try {
-                const body = new URLSearchParams(new FormData(buildForm));
-                await fetch(buildForm.action, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    body: body.toString()
-                });
-
-                window.location.assign("https://www.korvexa.co/thank-you.html");
-            } catch (error) {
-                button.disabled = false;
-                button.textContent = "Submit now";
-                message.textContent = "Your message could not be sent. Please try again or email build@korvexa.co.";
-                message.hidden = false;
+        formSubmitFrame.addEventListener("load", function () {
+            if (!formSubmissionPending) {
+                return;
             }
+
+            formSubmissionPending = false;
+            window.location.assign("https://www.korvexa.co/thank-you.html");
         });
 
         const toggle = document.getElementById("navToggle");
