@@ -1,6 +1,8 @@
 const { app } = require("@azure/functions");
 
-const FORM_ENDPOINT = "https://formsubmit.co/ajax/build@korvexa.co";
+const RESEND_ENDPOINT = "https://api.resend.com/emails";
+const DEFAULT_FROM = "KORVEXA Website <website@forms.korvexa.co>";
+const CONTACT_TO = "build@korvexa.co";
 const ALLOWED_ORIGINS = new Set([
     "https://www.korvexa.co",
     "https://korvexa.co"
@@ -14,6 +16,15 @@ const SUBJECTS = new Map([
 
 function clean(value, maxLength) {
     return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+}
+
+function escapeHtml(value) {
+    return value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
 
 function json(status, body) {
@@ -72,30 +83,59 @@ async function contactBuildHandler(request, context) {
         });
     }
 
-    const formPayload = {
-        _subject: "New KORVEXA Build website enquiry",
-        _template: "table",
-        _captcha: "false",
-        _url: "https://www.korvexa.co/contact-build.html",
-        _replyto: email,
-        name,
-        email,
-        phone,
-        subject,
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+        context.error("RESEND_API_KEY is not configured.");
+        return json(503, {
+            success: false,
+            message: "Contact email is being configured. Please email build@korvexa.co."
+        });
+    }
+
+    const from = process.env.CONTACT_FROM_EMAIL || DEFAULT_FROM;
+    const emailSubject = `New KORVEXA Build enquiry — ${subject}`;
+    const textBody = [
+        "New website enquiry",
+        "",
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Phone: ${phone}`,
+        `Subject: ${subject}`,
+        "",
+        "Message:",
         message
+    ].join("\n");
+    const htmlBody = `
+        <h2>New KORVEXA Build website enquiry</h2>
+        <table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse">
+            <tr><th align="left">Name</th><td>${escapeHtml(name)}</td></tr>
+            <tr><th align="left">Email</th><td>${escapeHtml(email)}</td></tr>
+            <tr><th align="left">Phone</th><td>${escapeHtml(phone)}</td></tr>
+            <tr><th align="left">Subject</th><td>${escapeHtml(subject)}</td></tr>
+        </table>
+        <h3>Message</h3>
+        <p style="white-space:pre-wrap">${escapeHtml(message)}</p>
+    `;
+
+    const emailPayload = {
+        from,
+        to: [CONTACT_TO],
+        reply_to: email,
+        subject: emailSubject,
+        text: textBody,
+        html: htmlBody
     };
 
     try {
-        const response = await fetch(FORM_ENDPOINT, {
+        const response = await fetch(RESEND_ENDPOINT, {
             method: "POST",
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "Origin": "https://www.korvexa.co",
-                "Referer": "https://www.korvexa.co/contact-build.html",
-                "User-Agent": "KORVEXA-Contact-Form/1.0 (+https://www.korvexa.co)"
+                "Authorization": `Bearer ${apiKey}`,
+                "User-Agent": "KORVEXA-Contact-Form/1.0"
             },
-            body: JSON.stringify(formPayload)
+            body: JSON.stringify(emailPayload)
         });
 
         const responseText = await response.text();
@@ -104,17 +144,13 @@ async function contactBuildHandler(request, context) {
         try {
             result = JSON.parse(responseText);
         } catch {
-            context.error("FormSubmit returned a non-JSON response.");
+            context.error("Resend returned a non-JSON response.");
         }
 
-        const accepted =
-            result.success === true ||
-            result.success === "true";
-
-        if (!response.ok || !accepted) {
-            context.error("FormSubmit rejected the contact request.", {
+        if (!response.ok || !result.id) {
+            context.error("Resend rejected the contact request.", {
                 status: response.status,
-                upstreamSuccess: result.success,
+                upstreamName: result.name,
                 upstreamMessage: result.message
             });
             return json(502, {
