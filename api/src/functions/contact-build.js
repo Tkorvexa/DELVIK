@@ -90,7 +90,10 @@ async function contactBuildHandler(request, context) {
             method: "POST",
             headers: {
                 "Accept": "application/json",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Origin": "https://www.korvexa.co",
+                "Referer": "https://www.korvexa.co/contact-build.html",
+                "User-Agent": "KORVEXA-Contact-Form/1.0 (+https://www.korvexa.co)"
             },
             body: JSON.stringify(formPayload)
         });
