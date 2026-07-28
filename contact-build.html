@@ -195,12 +195,44 @@
     <script>
         document.getElementById("y").textContent = new Date().getFullYear();
 
-        document.getElementById("buildForm").addEventListener("submit", function () {
-            document.getElementById("replyTo").value = document.getElementById("email").value.trim();
+        document.getElementById("buildForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
 
+            const form = event.currentTarget;
             const button = document.getElementById("buildSubmitBtn");
+            const message = document.getElementById("buildMsg");
+            const email = document.getElementById("email").value.trim();
+
+            document.getElementById("replyTo").value = email;
             button.disabled = true;
             button.textContent = "Sending...";
+            message.hidden = true;
+            message.textContent = "";
+
+            try {
+                const response = await fetch("https://formsubmit.co/ajax/build@korvexa.co", {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json"
+                    },
+                    body: new FormData(form)
+                });
+
+                const result = await response.json();
+                const accepted = response.ok && (result.success === true || result.success === "true");
+
+                if (!accepted) {
+                    throw new Error(result.message || "The message could not be sent.");
+                }
+
+                window.location.assign("https://www.korvexa.co/thank-you.html");
+            } catch (error) {
+                message.textContent = "We could not send your message. Please try again or email build@korvexa.co.";
+                message.hidden = false;
+                button.disabled = false;
+                button.textContent = "Submit now";
+                console.error("FormSubmit error:", error);
+            }
         });
 
         const toggle = document.getElementById("navToggle");
