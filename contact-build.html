@@ -232,7 +232,9 @@
 
                 window.location.assign("https://www.korvexa.co/thank-you.html");
             } catch (error) {
-                message.textContent = "We could not send your enquiry. Please try again or email build@korvexa.co.";
+                message.textContent = error instanceof Error && error.message
+                    ? error.message
+                    : "We could not send your enquiry. Please try again or email build@korvexa.co.";
                 message.hidden = false;
                 button.disabled = false;
                 button.textContent = "Submit now";
