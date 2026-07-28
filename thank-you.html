@@ -7,6 +7,7 @@
     <meta name="description" content="Thank you for contacting KORVEXA Build.">
     <meta name="robots" content="noindex, follow">
     <meta name="theme-color" content="#111111">
+    <meta http-equiv="refresh" content="4;url=index.html">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="logos/lbp-roundel-black-png.png">
 </head>
@@ -29,7 +30,8 @@
                 <p class="eyebrow">Message received</p>
                 <h1 class="section__title">Thank you for contacting KORVEXA Build.</h1>
                 <p class="section__lead">Your enquiry has been submitted. We will review the project details and respond with the next steps.</p>
-                <p><a class="btn btn--dark" href="index.html">Return to KORVEXA Build</a></p>
+                <p>You will return to the KORVEXA homepage automatically in 4 seconds.</p>
+                <p><a class="btn btn--dark" href="index.html">Return now</a></p>
             </div>
         </section>
     </main>
@@ -44,6 +46,9 @@
 
     <script>
         document.getElementById("y").textContent = new Date().getFullYear();
+        window.setTimeout(function () {
+            window.location.replace("index.html");
+        }, 4000);
     </script>
 </body>
 </html>
