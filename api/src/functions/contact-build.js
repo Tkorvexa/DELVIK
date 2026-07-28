@@ -117,18 +117,9 @@ async function contactBuildHandler(request, context) {
                 upstreamSuccess: result.success,
                 upstreamMessage: result.message
             });
-            const upstreamSuccess = typeof result.success === "undefined"
-                ? "missing"
-                : String(result.success);
-            const upstreamMessage = clean(result.message, 240);
-
             return json(502, {
                 success: false,
-                message: [
-                    `Email service response: HTTP ${response.status}`,
-                    `success=${upstreamSuccess}`,
-                    upstreamMessage
-                ].filter(Boolean).join(" — ")
+                message: "We could not send your enquiry. Please email build@korvexa.co."
             });
         }
 
