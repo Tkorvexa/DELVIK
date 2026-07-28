@@ -88,7 +88,6 @@
                         id="buildForm"
                         action="https://formsubmit.co/build@korvexa.co"
                         method="POST"
-                        target="formSubmitFrame"
                     >
                         <input type="hidden" name="_subject" value="New KORVEXA Build website enquiry">
                         <input type="hidden" name="_template" value="table">
@@ -135,7 +134,6 @@
                             <div id="buildMsg" class="form-message" hidden></div>
                         </div>
                     </form>
-                    <iframe name="formSubmitFrame" id="formSubmitFrame" title="Form submission" hidden></iframe>
                 </div>
 
                 <div class="contact-details">
@@ -198,26 +196,39 @@
     <script>
         document.getElementById("y").textContent = new Date().getFullYear();
 
-        let formSubmissionStarted = false;
         const buildForm = document.getElementById("buildForm");
-        const formSubmitFrame = document.getElementById("formSubmitFrame");
 
-        buildForm.addEventListener("submit", function () {
+        buildForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
             const button = document.getElementById("buildSubmitBtn");
             const message = document.getElementById("buildMsg");
             const email = document.getElementById("email").value.trim();
 
             document.getElementById("replyTo").value = email;
-            formSubmissionStarted = true;
             button.disabled = true;
             button.textContent = "Sending...";
             message.hidden = true;
             message.textContent = "";
-        });
 
-        formSubmitFrame.addEventListener("load", function () {
-            if (!formSubmissionStarted) return;
-            window.location.assign("https://www.korvexa.co/thank-you.html");
+            try {
+                const body = new URLSearchParams(new FormData(buildForm));
+                await fetch(buildForm.action, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: body.toString()
+                });
+
+                window.location.assign("https://www.korvexa.co/thank-you.html");
+            } catch (error) {
+                button.disabled = false;
+                button.textContent = "Submit now";
+                message.textContent = "Your message could not be sent. Please try again or email build@korvexa.co.";
+                message.hidden = false;
+            }
         });
 
         const toggle = document.getElementById("navToggle");
