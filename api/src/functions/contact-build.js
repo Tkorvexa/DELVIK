@@ -110,11 +110,22 @@ async function contactBuildHandler(request, context) {
 
         if (!response.ok || !accepted) {
             context.error("FormSubmit rejected the contact request.", {
-                status: response.status
+                status: response.status,
+                upstreamSuccess: result.success,
+                upstreamMessage: result.message
             });
+            const upstreamSuccess = typeof result.success === "undefined"
+                ? "missing"
+                : String(result.success);
+            const upstreamMessage = clean(result.message, 240);
+
             return json(502, {
                 success: false,
-                message: "The email service did not accept the enquiry."
+                message: [
+                    `Email service response: HTTP ${response.status}`,
+                    `success=${upstreamSuccess}`,
+                    upstreamMessage
+                ].filter(Boolean).join(" — ")
             });
         }
 
