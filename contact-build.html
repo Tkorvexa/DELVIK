@@ -86,14 +86,10 @@
                     <form
                         class="contact-form"
                         id="buildForm"
-                        action="https://formsubmit.co/build@korvexa.co"
+                        action="/api/contact/build"
                         method="POST"
                     >
-                        <input type="hidden" name="_subject" value="New KORVEXA Build website enquiry">
-                        <input type="hidden" name="_template" value="table">
-                        <input type="hidden" name="_next" value="https://www.korvexa.co/thank-you.html">
-                        <input type="hidden" name="_url" value="https://www.korvexa.co/contact-build.html">
-                        <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+                        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none!important">
                         <div class="contact-form__head">
                             <div class="contact-form__title">Get In Touch</div>
                             <div class="contact-form__sub">Tell us what you are building and we will respond with next steps.</div>
@@ -107,7 +103,6 @@
                             <div class="field">
                                 <label for="email">Email</label>
                                 <input id="email" name="email" type="email" placeholder="Email address" autocomplete="email" required>
-                                <input type="hidden" name="_replyto" id="replyTo">
                             </div>
                             <div class="field field--full">
                                 <label for="phone">Phone</label>
@@ -195,11 +190,53 @@
     <script>
         document.getElementById("y").textContent = new Date().getFullYear();
 
-        document.getElementById("buildForm").addEventListener("submit", function () {
+        document.getElementById("buildForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const form = event.currentTarget;
             const button = document.getElementById("buildSubmitBtn");
-            document.getElementById("replyTo").value = document.getElementById("email").value.trim();
+            const message = document.getElementById("buildMsg");
+
+            message.hidden = true;
+            message.textContent = "";
             button.disabled = true;
             button.textContent = "Sending...";
+
+            const formData = new FormData(form);
+            const payload = {
+                name: String(formData.get("name") || "").trim(),
+                email: String(formData.get("email") || "").trim(),
+                phone: String(formData.get("phone") || "").trim(),
+                subject: String(formData.get("subject") || "").trim(),
+                message: String(formData.get("message") || "").trim(),
+                website: String(formData.get("website") || "").trim()
+            };
+
+            try {
+                const response = await fetch(form.action, {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json().catch(function () {
+                    return {};
+                });
+
+                if (!response.ok || result.success !== true) {
+                    throw new Error(result.message || "The enquiry could not be sent.");
+                }
+
+                window.location.assign("https://www.korvexa.co/thank-you.html");
+            } catch (error) {
+                message.textContent = "We could not send your enquiry. Please try again or email build@korvexa.co.";
+                message.hidden = false;
+                button.disabled = false;
+                button.textContent = "Submit now";
+            }
         });
 
         const toggle = document.getElementById("navToggle");
