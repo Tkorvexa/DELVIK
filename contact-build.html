@@ -88,6 +88,7 @@
                         id="buildForm"
                         action="/api/contact/build"
                         method="POST"
+                        enctype="multipart/form-data"
                     >
                         <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none!important">
                         <div class="contact-form__head">
@@ -121,6 +122,20 @@
                             <div class="field field--full">
                                 <label for="message">Message</label>
                                 <textarea id="message" name="message" rows="6" placeholder="Tell us about your project" required></textarea>
+                            </div>
+                            <div class="field field--full">
+                                <label for="projectFiles">Plans or design files (optional)</label>
+                                <input
+                                    id="projectFiles"
+                                    name="projectFiles"
+                                    type="file"
+                                    accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+                                    aria-describedby="projectFilesHint"
+                                    multiple
+                                >
+                                <div id="projectFilesHint" class="contact-form__sub">
+                                    PDF, JPG or PNG. Up to 3 files, 10 MB each and 15 MB combined. For larger file sets, include a share link in your message.
+                                </div>
                             </div>
                             <div class="field field--full">
                                 <button class="contact-form__btn" type="submit" id="buildSubmitBtn">Submit now</button>
@@ -190,6 +205,38 @@
     <script>
         document.getElementById("y").textContent = new Date().getFullYear();
 
+        const MAX_PROJECT_FILES = 3;
+        const MAX_PROJECT_FILE_SIZE = 10 * 1024 * 1024;
+        const MAX_PROJECT_TOTAL_SIZE = 15 * 1024 * 1024;
+        const ALLOWED_PROJECT_FILE_EXTENSIONS = new Set(["pdf", "jpg", "jpeg", "png"]);
+
+        function validateProjectFiles(files) {
+            if (files.length > MAX_PROJECT_FILES) {
+                return "Please upload no more than 3 files.";
+            }
+
+            let totalSize = 0;
+            for (const file of files) {
+                const extension = file.name.includes(".")
+                    ? file.name.split(".").pop().toLowerCase()
+                    : "";
+
+                if (!ALLOWED_PROJECT_FILE_EXTENSIONS.has(extension)) {
+                    return "Only PDF, JPG and PNG files are accepted.";
+                }
+
+                if (file.size > MAX_PROJECT_FILE_SIZE) {
+                    return "Each file must be 10 MB or less.";
+                }
+
+                totalSize += file.size;
+            }
+
+            return totalSize > MAX_PROJECT_TOTAL_SIZE
+                ? "The combined file size must be 15 MB or less."
+                : "";
+        }
+
         document.getElementById("buildForm").addEventListener("submit", async function (event) {
             event.preventDefault();
 
@@ -203,23 +250,28 @@
             button.textContent = "Sending...";
 
             const formData = new FormData(form);
-            const payload = {
-                name: String(formData.get("name") || "").trim(),
-                email: String(formData.get("email") || "").trim(),
-                phone: String(formData.get("phone") || "").trim(),
-                subject: String(formData.get("subject") || "").trim(),
-                message: String(formData.get("message") || "").trim(),
-                website: String(formData.get("website") || "").trim()
-            };
+            const files = formData
+                .getAll("projectFiles")
+                .filter(function (file) {
+                    return file instanceof File && file.size > 0;
+                });
+            const fileError = validateProjectFiles(files);
+
+            if (fileError) {
+                message.textContent = fileError;
+                message.hidden = false;
+                button.disabled = false;
+                button.textContent = "Submit now";
+                return;
+            }
 
             try {
                 const response = await fetch(form.action, {
                     method: "POST",
                     headers: {
-                        "Accept": "application/json",
-                        "Content-Type": "application/json"
+                        "Accept": "application/json"
                     },
-                    body: JSON.stringify(payload)
+                    body: formData
                 });
 
                 const result = await response.json().catch(function () {
