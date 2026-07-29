@@ -12,6 +12,8 @@ const VALID_BODY = {
     website: ""
 };
 
+const PDF_BYTES = Buffer.from("%PDF-1.7\nTest plan");
+
 let originalFetch;
 let originalApiKey;
 let originalFrom;
@@ -20,6 +22,30 @@ function request(body = VALID_BODY, origin = "https://www.korvexa.co") {
     return {
         headers: new Headers(origin ? { origin } : {}),
         json: async () => body
+    };
+}
+
+function multipartRequest({
+    body = VALID_BODY,
+    files = [],
+    origin = "https://www.korvexa.co"
+} = {}) {
+    const formData = new FormData();
+
+    Object.entries(body).forEach(([key, value]) => {
+        formData.append(key, value);
+    });
+
+    files.forEach((file) => {
+        formData.append("projectFiles", file, file.name);
+    });
+
+    return {
+        headers: new Headers({
+            ...(origin ? { origin } : {}),
+            "content-type": "multipart/form-data; boundary=test"
+        }),
+        formData: async () => formData
     };
 }
 
@@ -78,6 +104,93 @@ test("sends a validated enquiry to the fixed Korvexa recipient", async () => {
     assert.deepEqual(payload.to, ["build@korvexa.co"]);
     assert.equal(payload.reply_to, VALID_BODY.email);
     assert.equal(payload.subject, "New KORVEXA Build enquiry — New build");
+    assert.equal(payload.attachments, undefined);
+});
+
+test("forwards a validated PDF attachment to Resend", async () => {
+    let payload;
+    global.fetch = async (_url, options) => {
+        payload = JSON.parse(options.body);
+        return new Response(JSON.stringify({ id: "email_with_plan" }), {
+            status: 200,
+            headers: { "Content-Type": "application/json" }
+        });
+    };
+
+    const file = new File([PDF_BYTES], "concept-plan.pdf", {
+        type: "application/pdf"
+    });
+    const response = await contactBuildHandler(
+        multipartRequest({ files: [file] }),
+        context()
+    );
+
+    assert.equal(response.status, 200);
+    assert.equal(payload.attachments.length, 1);
+    assert.equal(payload.attachments[0].filename, "concept-plan.pdf");
+    assert.equal(payload.attachments[0].content, PDF_BYTES.toString("base64"));
+    assert.equal(payload.attachments[0].content_type, "application/pdf");
+    assert.match(payload.text, /Files: concept-plan\.pdf/);
+});
+
+test("rejects an unsupported attachment type", async () => {
+    let called = false;
+    global.fetch = async () => {
+        called = true;
+    };
+
+    const file = new File(["drawing"], "drawing.dwg", {
+        type: "application/acad"
+    });
+    const response = await contactBuildHandler(
+        multipartRequest({ files: [file] }),
+        context()
+    );
+
+    assert.equal(response.status, 400);
+    assert.match(response.jsonBody.message, /Only PDF, JPG and PNG/);
+    assert.equal(called, false);
+});
+
+test("rejects a renamed file whose signature does not match", async () => {
+    let called = false;
+    global.fetch = async () => {
+        called = true;
+    };
+
+    const file = new File(["not-a-pdf"], "unsafe.pdf", {
+        type: "application/pdf"
+    });
+    const response = await contactBuildHandler(
+        multipartRequest({ files: [file] }),
+        context()
+    );
+
+    assert.equal(response.status, 400);
+    assert.match(response.jsonBody.message, /does not match/);
+    assert.equal(called, false);
+});
+
+test("rejects more than three attachments", async () => {
+    let called = false;
+    global.fetch = async () => {
+        called = true;
+    };
+
+    const files = [1, 2, 3, 4].map(
+        (number) =>
+            new File([PDF_BYTES], `plan-${number}.pdf`, {
+                type: "application/pdf"
+            })
+    );
+    const response = await contactBuildHandler(
+        multipartRequest({ files }),
+        context()
+    );
+
+    assert.equal(response.status, 400);
+    assert.match(response.jsonBody.message, /no more than 3/);
+    assert.equal(called, false);
 });
 
 test("rejects requests from an unapproved browser origin", async () => {
