@@ -16,6 +16,21 @@ const SUBJECTS = new Map([
     ["light-commercial", "Light commercial"],
     ["project-delivery", "Project delivery"]
 ]);
+const PROJECT_STAGES = new Map([
+    ["idea", "Idea / early planning"],
+    ["concept-design", "Concept design"],
+    ["developed-design", "Developed design"],
+    ["building-consent", "Building consent"],
+    ["ready-for-pricing", "Ready for pricing"]
+]);
+const BUDGETS = new Map([
+    ["under-250k", "Under NZ$250k"],
+    ["250k-500k", "NZ$250k–$500k"],
+    ["500k-1m", "NZ$500k–$1m"],
+    ["1m-2m", "NZ$1m–$2m"],
+    ["over-2m", "Over NZ$2m"],
+    ["not-established", "Not established yet"]
+]);
 const FILE_TYPES = new Map([
     [".pdf", { contentType: "application/pdf", signature: "pdf" }],
     [".jpg", { contentType: "image/jpeg", signature: "jpeg" }],
@@ -105,6 +120,11 @@ async function parseRequest(request) {
                 email: formData.get("email"),
                 phone: formData.get("phone"),
                 subject: formData.get("subject"),
+                projectLocation: formData.get("projectLocation"),
+                projectStage: formData.get("projectStage"),
+                desiredStart: formData.get("desiredStart"),
+                budget: formData.get("budget"),
+                privacyConsent: formData.get("privacyConsent"),
                 message: formData.get("message"),
                 website: formData.get("website")
             },
@@ -197,14 +217,28 @@ async function contactBuildHandler(request, context) {
     const email = clean(body.email, 254);
     const phone = clean(body.phone, 60);
     const subjectKey = clean(body.subject, 60);
+    const projectLocation = clean(body.projectLocation, 200);
+    const projectStageKey = clean(body.projectStage, 60);
+    const desiredStart = clean(body.desiredStart, 30);
+    const budgetKey = clean(body.budget, 60);
     const message = clean(body.message, 5000);
     const subject = SUBJECTS.get(subjectKey);
+    const projectStage = PROJECT_STAGES.get(projectStageKey);
+    const budget = budgetKey ? BUDGETS.get(budgetKey) : "Not provided";
+    const privacyConsent = body.privacyConsent === true ||
+        ["true", "on", "1"].includes(clean(body.privacyConsent, 10).toLowerCase());
+    const validDesiredStart = !desiredStart || /^\d{4}-\d{2}-\d{2}$/.test(desiredStart);
 
     if (
         !name ||
         !email ||
         !phone ||
         !subject ||
+        !projectLocation ||
+        !projectStage ||
+        !budget ||
+        !privacyConsent ||
+        !validDesiredStart ||
         !message ||
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     ) {
@@ -242,6 +276,11 @@ async function contactBuildHandler(request, context) {
         `Email: ${email}`,
         `Phone: ${phone}`,
         `Subject: ${subject}`,
+        `Project location: ${projectLocation}`,
+        `Project stage: ${projectStage}`,
+        `Preferred start: ${desiredStart || "Not provided"}`,
+        `Indicative budget: ${budget}`,
+        "Privacy consent: Confirmed",
         `Files: ${attachmentNames.length ? attachmentNames.join(", ") : "None"}`,
         "",
         "Message:",
@@ -254,6 +293,11 @@ async function contactBuildHandler(request, context) {
             <tr><th align="left">Email</th><td>${escapeHtml(email)}</td></tr>
             <tr><th align="left">Phone</th><td>${escapeHtml(phone)}</td></tr>
             <tr><th align="left">Subject</th><td>${escapeHtml(subject)}</td></tr>
+            <tr><th align="left">Project location</th><td>${escapeHtml(projectLocation)}</td></tr>
+            <tr><th align="left">Project stage</th><td>${escapeHtml(projectStage)}</td></tr>
+            <tr><th align="left">Preferred start</th><td>${escapeHtml(desiredStart || "Not provided")}</td></tr>
+            <tr><th align="left">Indicative budget</th><td>${escapeHtml(budget)}</td></tr>
+            <tr><th align="left">Privacy consent</th><td>Confirmed</td></tr>
             <tr><th align="left">Files</th><td>${attachmentNames.length
                 ? attachmentNames.map(escapeHtml).join(", ")
                 : "None"}</td></tr>
