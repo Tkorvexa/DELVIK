@@ -8,6 +8,11 @@ const VALID_BODY = {
     email: "reply@example.com",
     phone: "+64 21 555 0101",
     subject: "new-build",
+    projectLocation: "Papamoa 3118",
+    projectStage: "concept-design",
+    desiredStart: "2026-11-01",
+    budget: "500k-1m",
+    privacyConsent: true,
     message: "Please contact me about a new build.",
     website: ""
 };
@@ -104,6 +109,11 @@ test("sends a validated enquiry to the fixed Korvexa recipient", async () => {
     assert.deepEqual(payload.to, ["build@korvexa.co"]);
     assert.equal(payload.reply_to, VALID_BODY.email);
     assert.equal(payload.subject, "New KORVEXA Build enquiry — New build");
+    assert.match(payload.text, /Project location: Papamoa 3118/);
+    assert.match(payload.text, /Project stage: Concept design/);
+    assert.match(payload.text, /Preferred start: 2026-11-01/);
+    assert.match(payload.text, /Indicative budget: NZ\$500k–\$1m/);
+    assert.match(payload.text, /Privacy consent: Confirmed/);
     assert.equal(payload.attachments, undefined);
 });
 
@@ -190,6 +200,44 @@ test("rejects more than three attachments", async () => {
 
     assert.equal(response.status, 400);
     assert.match(response.jsonBody.message, /no more than 3/);
+    assert.equal(called, false);
+});
+
+test("rejects a lead without project location, stage or privacy consent", async () => {
+    let called = false;
+    global.fetch = async () => {
+        called = true;
+    };
+
+    for (const missingField of ["projectLocation", "projectStage", "privacyConsent"]) {
+        const invalidBody = { ...VALID_BODY };
+        delete invalidBody[missingField];
+        const response = await contactBuildHandler(request(invalidBody), context());
+
+        assert.equal(response.status, 400);
+        assert.match(response.jsonBody.message, /required fields/);
+    }
+
+    assert.equal(called, false);
+});
+
+test("rejects unknown budget values and malformed start dates", async () => {
+    let called = false;
+    global.fetch = async () => {
+        called = true;
+    };
+
+    const unknownBudget = await contactBuildHandler(
+        request({ ...VALID_BODY, budget: "unlimited" }),
+        context()
+    );
+    const malformedDate = await contactBuildHandler(
+        request({ ...VALID_BODY, desiredStart: "tomorrow" }),
+        context()
+    );
+
+    assert.equal(unknownBudget.status, 400);
+    assert.equal(malformedDate.status, 400);
     assert.equal(called, false);
 });
 
