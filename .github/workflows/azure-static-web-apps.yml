@@ -1,3 +1,4 @@
+# Redeploy trigger for the contact form upload release
 name: Azure Static Web Apps CI/CD
 
 on:
