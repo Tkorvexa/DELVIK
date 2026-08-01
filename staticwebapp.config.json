@@ -46,7 +46,7 @@
     {
       "route": "/*.css",
       "headers": {
-        "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800"
+        "Cache-Control": "public, max-age=3600, must-revalidate"
       }
     },
     {

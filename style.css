@@ -580,7 +580,12 @@ a{
 
 .contact-social{
   width:40px;
+  min-width:40px;
+  max-width:40px;
   height:40px;
+  min-height:40px;
+  max-height:40px;
+  flex:0 0 40px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -591,9 +596,15 @@ a{
   transition:color .2s ease,border-color .2s ease,transform .2s ease,background-color .2s ease;
 }
 
-.contact-social svg{
+.contact-social > .contact-social__icon{
+  display:block;
   width:22px;
+  min-width:22px;
+  max-width:22px;
   height:22px;
+  min-height:22px;
+  max-height:22px;
+  flex:0 0 22px;
   fill:currentColor;
 }
 
@@ -690,7 +701,12 @@ a{
   bottom:24px;
   z-index:45;
   width:56px;
+  min-width:56px;
+  max-width:56px;
   height:56px;
+  min-height:56px;
+  max-height:56px;
+  flex:0 0 56px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -708,9 +724,15 @@ a{
   box-shadow:0 14px 34px rgba(0,0,0,.3);
 }
 
-.whatsapp-float svg{
+.whatsapp-float > .whatsapp-float__icon{
+  display:block;
   width:30px;
+  min-width:30px;
+  max-width:30px;
   height:30px;
+  min-height:30px;
+  max-height:30px;
+  flex:0 0 30px;
   fill:currentColor;
 }
 
