@@ -23,7 +23,7 @@
     <link rel="alternate" hreflang="en-nz" href="https://www.korvexa.co/contact-build">
     <link rel="alternate" hreflang="x-default" href="https://www.korvexa.co/contact-build">
     <link rel="preload" as="image" href="assets/contact-1600.webp" imagesrcset="assets/contact-900.webp 900w, assets/contact-1600.webp 1536w" imagesizes="100vw" fetchpriority="high" type="image/webp">
-    <link rel="stylesheet" href="/style.css?v=20260801-1">
+    <link rel="stylesheet" href="/style.css?v=20260802-1">
     <link rel="icon" type="image/png" sizes="64x64" href="logos/korvexa-favicon.png">
     <script type="application/ld+json">
     {
@@ -53,9 +53,10 @@
             </button>
             <nav id="navMenu" aria-label="Primary">
                 <a href="/#services">Services</a>
-                <a href="/#projects">Projects</a>
+                <a href="/projects">Projects</a>
                 <a href="/areas-served">Areas</a>
-                <a href="/#process">Process</a>
+                <a href="/about">About</a>
+                <a href="/project-readiness">Project check</a>
                 <a href="/contact-build" aria-current="page">Contact</a>
             </nav>
         </div>
@@ -87,6 +88,7 @@
                         enctype="multipart/form-data"
                     >
                         <input class="honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+                        <input id="leadAttribution" type="hidden" name="leadAttribution" value="">
                         <div class="contact-form__head">
                             <div class="contact-form__title">Get In Touch</div>
                             <div class="contact-form__sub">Tell us what you are building and we will respond with next steps.</div>
@@ -111,8 +113,11 @@
                                     <option value="" disabled selected>Select a subject</option>
                                     <option value="new-build">New build</option>
                                     <option value="renovation">Renovation</option>
+                                    <option value="extension">House extension</option>
                                     <option value="light-commercial">Light commercial</option>
                                     <option value="project-delivery">Project delivery</option>
+                                    <option value="design-build">Design and build</option>
+                                    <option value="development">Property development</option>
                                 </select>
                             </div>
                             <div class="field">
@@ -255,6 +260,15 @@
     <script>
         document.getElementById("y").textContent = new Date().getFullYear();
         document.getElementById("desiredStart").min = new Date().toISOString().slice(0, 10);
+        const enquiryParams = new URLSearchParams(window.location.search);
+        const requestedProject = enquiryParams.get("project");
+        const requestedStage = enquiryParams.get("stage");
+        if (requestedProject && Array.from(document.getElementById("subject").options).some(function (option) { return option.value === requestedProject; })) {
+            document.getElementById("subject").value = requestedProject;
+        }
+        if (requestedStage === "consented") document.getElementById("projectStage").value = "ready-for-pricing";
+        if (requestedStage === "detailed") document.getElementById("projectStage").value = "building-consent";
+        if (requestedStage === "concept") document.getElementById("projectStage").value = "concept-design";
 
         const MAX_PROJECT_FILES = 3;
         const MAX_PROJECT_FILE_SIZE = 10 * 1024 * 1024;
@@ -361,5 +375,6 @@
             });
         });
     </script>
+    <script src="/site.js?v=20260802-1"></script>
 </body>
 </html>
