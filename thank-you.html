@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-NZ">
 <head>
     <meta charset="utf-8">
@@ -7,48 +7,44 @@
     <meta name="description" content="Thank you for contacting KORVEXA Build.">
     <meta name="robots" content="noindex, follow">
     <meta name="theme-color" content="#111111">
-    <meta http-equiv="refresh" content="4;url=https://www.korvexa.co/">
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="logos/lbp-roundel-black-png.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="logos/korvexa-favicon.png">
 </head>
 <body class="page-contact-build">
     <a class="skip-link" href="#main-content">Skip to content</a>
 
     <header class="site-header">
         <div class="nav">
-            <a class="brand" href="index.html" aria-label="KORVEXA Build home">
-                <img src="logos/korvexa-logo.png" alt="KORVEXA Build" class="brand__logo" width="180" height="61">
+            <a class="brand" href="/" aria-label="KORVEXA Build home">
+                <img src="logos/korvexa-logo-360.webp" alt="KORVEXA Build" class="brand__logo" width="180" height="46" decoding="async">
             </a>
-            <button class="nav__hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
+            <button class="nav__hamburger" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
             <nav id="navMenu" aria-label="Primary">
-                <a href="index.html#services">Services</a>
-                <a href="index.html#projects">Projects</a>
-                <a href="areas-served.html">Areas</a>
-                <a href="index.html#process">Process</a>
-                <a href="contact-build.html">Contact</a>
-                <a href="/login">Login</a>
-                <a href="/platform">Platform</a>
+                <a href="/#services">Services</a>
+                <a href="/#projects">Projects</a>
+                <a href="/areas-served">Areas</a>
+                <a href="/#process">Process</a>
+                <a href="/contact-build">Contact</a>
             </nav>
         </div>
     </header>
 
     <main id="main-content">
-        <section class="section section--center" style="min-height:70vh;display:flex;align-items:center">
+        <section class="section section--center thank-you">
             <div class="container">
                 <p class="eyebrow">Message received</p>
                 <h1 class="section__title">Thank you for contacting KORVEXA Build.</h1>
                 <p class="section__lead">Your enquiry has been submitted. We will review the project details and respond with the next steps.</p>
-                <p>You will return to the KORVEXA homepage automatically in 4 seconds.</p>
-                <p><a class="btn btn--dark" href="https://www.korvexa.co/">Return now</a></p>
+                <p><a class="btn btn--dark" href="/">Return to the homepage</a></p>
             </div>
         </section>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" aria-label="Legal information">
         <div class="footer-bar">
             <div class="footer-bar__inner">
                 <div class="footer-bar__left">Copyright &copy; <span id="y"></span> KORVEXA Holdings. All rights reserved.</div>
@@ -75,9 +71,6 @@
             });
         });
 
-        window.setTimeout(function () {
-            window.location.replace("https://www.korvexa.co/");
-        }, 4000);
     </script>
 </body>
 </html>

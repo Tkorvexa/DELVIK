@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://korvexa.co/</loc>
-    <lastmod>2026-07-25</lastmod>
+    <loc>https://www.korvexa.co/</loc>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://korvexa.co/contact-build.html</loc>
-    <lastmod>2026-07-25</lastmod>
+    <loc>https://www.korvexa.co/contact-build</loc>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://korvexa.co/areas-served.html</loc>
-    <lastmod>2026-07-25</lastmod>
+    <loc>https://www.korvexa.co/areas-served</loc>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

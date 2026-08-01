@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://korvexa.co/build/sitemap.xml
+Sitemap: https://www.korvexa.co/sitemap.xml
