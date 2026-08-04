@@ -23,7 +23,7 @@ let originalFetch;
 let originalApiKey;
 let originalFrom;
 
-function request(body = VALID_BODY, origin = "https://www.korvexa.co") {
+function request(body = VALID_BODY, origin = "https://delvik.co") {
     return {
         headers: new Headers(origin ? { origin } : {}),
         json: async () => body
@@ -33,7 +33,7 @@ function request(body = VALID_BODY, origin = "https://www.korvexa.co") {
 function multipartRequest({
     body = VALID_BODY,
     files = [],
-    origin = "https://www.korvexa.co"
+    origin = "https://delvik.co"
 } = {}) {
     const formData = new FormData();
 
@@ -87,7 +87,7 @@ afterEach(() => {
     }
 });
 
-test("sends a validated enquiry to the fixed Korvexa recipient", async () => {
+test("sends a validated enquiry to the fixed DELVIK recipient", async () => {
     let captured;
     global.fetch = async (url, options) => {
         captured = { url, options };
@@ -104,11 +104,11 @@ test("sends a validated enquiry to the fixed Korvexa recipient", async () => {
     assert.deepEqual(response.jsonBody, { success: true });
     assert.equal(captured.url, "https://api.resend.com/emails");
     assert.equal(captured.options.headers.Authorization, "Bearer re_test_key");
-    assert.equal(captured.options.headers["User-Agent"], "KORVEXA-Contact-Form/1.0");
-    assert.equal(payload.from, "KORVEXA Website <website@forms.korvexa.co>");
-    assert.deepEqual(payload.to, ["build@korvexa.co"]);
+    assert.equal(captured.options.headers["User-Agent"], "DELVIK-Contact-Form/1.0");
+    assert.equal(payload.from, "DELVIK Website <website@forms.delvik.co>");
+    assert.deepEqual(payload.to, ["build@delvik.co"]);
     assert.equal(payload.reply_to, VALID_BODY.email);
-    assert.equal(payload.subject, "New KORVEXA Build enquiry — New build");
+    assert.equal(payload.subject, "New DELVIK Build enquiry — New build");
     assert.match(payload.text, /Project location: Papamoa 3118/);
     assert.match(payload.text, /Project stage: Concept design/);
     assert.match(payload.text, /Preferred start: 2026-11-01/);
@@ -284,7 +284,7 @@ test("returns a safe error when the Resend key is missing", async () => {
 
     assert.equal(response.status, 503);
     assert.equal(response.jsonBody.success, false);
-    assert.match(response.jsonBody.message, /build@korvexa\.co/);
+    assert.match(response.jsonBody.message, /build@delvik\.co/);
     assert.equal(called, false);
 });
 
@@ -305,7 +305,7 @@ test("returns failure when Resend rejects the email", async () => {
 
     assert.equal(response.status, 502);
     assert.equal(response.jsonBody.success, false);
-    assert.match(response.jsonBody.message, /build@korvexa\.co/);
+    assert.match(response.jsonBody.message, /build@delvik\.co/);
 });
 
 test("escapes user content before placing it in the HTML email", async () => {

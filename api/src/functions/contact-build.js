@@ -1,14 +1,14 @@
 const { app } = require("@azure/functions");
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
-const DEFAULT_FROM = "KORVEXA Website <website@forms.korvexa.co>";
-const CONTACT_TO = "build@korvexa.co";
+const DEFAULT_FROM = "DELVIK Website <website@forms.delvik.co>";
+const CONTACT_TO = "build@delvik.co";
 const MAX_FILE_COUNT = 3;
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const MAX_TOTAL_FILE_SIZE = 15 * 1024 * 1024;
 const ALLOWED_ORIGINS = new Set([
-    "https://www.korvexa.co",
-    "https://korvexa.co"
+    "https://delvik.co",
+    "https://delvik.co"
 ]);
 const SUBJECTS = new Map([
     ["new-build", "New build"],
@@ -262,12 +262,12 @@ async function contactBuildHandler(request, context) {
         context.error("RESEND_API_KEY is not configured.");
         return json(503, {
             success: false,
-            message: "Contact email is being configured. Please email build@korvexa.co."
+            message: "Contact email is being configured. Please email build@delvik.co."
         });
     }
 
     const from = process.env.CONTACT_FROM_EMAIL || DEFAULT_FROM;
-    const emailSubject = `New KORVEXA Build enquiry — ${subject}`;
+    const emailSubject = `New DELVIK Build enquiry — ${subject}`;
     const attachmentNames = attachments.map((attachment) => attachment.filename);
     const textBody = [
         "New website enquiry",
@@ -287,7 +287,7 @@ async function contactBuildHandler(request, context) {
         message
     ].join("\n");
     const htmlBody = `
-        <h2>New KORVEXA Build website enquiry</h2>
+        <h2>New DELVIK Build website enquiry</h2>
         <table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse">
             <tr><th align="left">Name</th><td>${escapeHtml(name)}</td></tr>
             <tr><th align="left">Email</th><td>${escapeHtml(email)}</td></tr>
@@ -326,7 +326,7 @@ async function contactBuildHandler(request, context) {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${apiKey}`,
-                "User-Agent": "KORVEXA-Contact-Form/1.0"
+                "User-Agent": "DELVIK-Contact-Form/1.0"
             },
             body: JSON.stringify(emailPayload)
         });
@@ -348,7 +348,7 @@ async function contactBuildHandler(request, context) {
             });
             return json(502, {
                 success: false,
-                message: "We could not send your enquiry. Please email build@korvexa.co."
+                message: "We could not send your enquiry. Please email build@delvik.co."
             });
         }
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <title>DELVIK — Favicon</title>
+  <rect width="512" height="512" rx="96" fill="#0B0B0B"/>
+  <g fill="#FFFFFF" transform="translate(112 46) scale(.9)">
+    <path d="M0 166 56 126v194L0 280Z"/>
+    <path d="M78 0 140 44v260l-62 44Z"/>
+    <path d="M162 58 280 146v190L140 410v-66l78-42V178l-56-42Z"/>
+  </g>
+</svg>
