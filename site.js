@@ -3,6 +3,25 @@
 
   window.dataLayer = window.dataLayer || [];
 
+  const analytics = window.DELVIK_ANALYTICS || {};
+  const gtmId = /^GTM-[A-Z0-9]+$/.test(analytics.gtmContainerId || "") ? analytics.gtmContainerId : "";
+  const ga4Id = /^G-[A-Z0-9]+$/.test(analytics.ga4MeasurementId || "") ? analytics.ga4MeasurementId : "";
+  if (gtmId) {
+    window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
+    const gtmScript = document.createElement("script");
+    gtmScript.async = true;
+    gtmScript.src = "https://www.googletagmanager.com/gtm.js?id=" + encodeURIComponent(gtmId);
+    document.head.appendChild(gtmScript);
+  } else if (ga4Id) {
+    const gaScript = document.createElement("script");
+    gaScript.async = true;
+    gaScript.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(ga4Id);
+    document.head.appendChild(gaScript);
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", ga4Id, { anonymize_ip: true });
+  }
+
   function track(eventName, details) {
     window.dataLayer.push(Object.assign({ event: eventName }, details || {}));
   }
@@ -69,16 +88,6 @@
     mobileBar.querySelector('a[href^="tel:"]').addEventListener("click", function () { track("phone_click", { page_path: location.pathname, placement: "mobile_bar" }); });
     mobileBar.querySelector('a[href*="wa.me"]').addEventListener("click", function () { track("whatsapp_click", { page_path: location.pathname, placement: "mobile_bar" }); });
     mobileBar.querySelector('a[href*="contact-build"]').addEventListener("click", function () { track("mobile_project_click", { page_path: location.pathname }); });
-  }
-
-  if (location.pathname.indexOf("/services/") === 0) {
-    const serviceMain = document.querySelector("main");
-    if (serviceMain && !document.querySelector(".service-conversion-proof")) {
-      const proof = document.createElement("section");
-      proof.className = "section section--alt service-conversion-proof";
-      proof.innerHTML = '<div class="container"><p class="section-kicker">Local delivery confidence</p><h2 class="section__title">A qualified builder, a clear process and a direct response.</h2><div class="grid"><article class="card"><h3>Verified capability</h3><p>Licensed Building Practitioner, BCITO-qualified carpenter and SiteWise Green systems, backed by more than eight years of New Zealand construction experience.</p></article><article class="card"><h3>Where we work</h3><p>Tauranga, Mount Maunganui, Papamoa and selected Western Bay of Plenty projects, assessed by scope and programme.</p></article><article class="card"><h3>What happens first?</h3><p>Send the location, plans and current stage. We review the information and reply within one business day with the clearest next step.</p></article><article class="card"><h3>Can I start before plans are complete?</h3><p>Yes. The free project check identifies whether design, feasibility, consent or preliminary pricing should come next.</p></article></div><div class="service-conversion-proof__actions"><a class="btn btn--dark" href="/contact-build#contact" data-track="service_proof_enquiry_click">Assess my project</a><a class="btn btn--ghost" href="/project-readiness" data-track="service_proof_check_click">Run the free project check</a></div></div>';
-      serviceMain.appendChild(proof);
-    }
   }
 
   window.delvikTrack = track;

@@ -2,6 +2,16 @@
   "trailingSlash": "never",
   "routes": [
     {
+      "route": "/index.html.html",
+      "redirect": "/",
+      "statusCode": 301
+    },
+    {
+      "route": "/build_1.html",
+      "redirect": "/",
+      "statusCode": 301
+    },
+    {
       "route": "/build.html",
       "redirect": "/",
       "statusCode": 301

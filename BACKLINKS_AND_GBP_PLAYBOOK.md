@@ -92,8 +92,8 @@ Hello,
 We would like to be listed in your partner or supplier directory. DELVIK Build supports residential, renovation and light commercial construction projects in Tauranga, Bay of Plenty and selected New Zealand projects.
 
 Business name: DELVIK Build
-Website: https://delvik.co/build/
-Contact page: https://delvik.co/build/contact-build.html
+Website: https://delvik.co/
+Contact page: https://delvik.co/contact-build
 Email: info@delvik.co
 Phone: +64 9 123 4567
 

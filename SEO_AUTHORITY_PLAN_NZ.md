@@ -39,7 +39,7 @@ Each page should include:
 ## Internal linking rules
 
 - Link from the home page to service-area and service pages.
-- Link every new page back to `build_1.html` and `contact-build.html`.
+- Link every new page back to `/`, the relevant service page and `/contact-build`.
 - Use natural anchor text such as `builder in Tauranga`, `Bay of Plenty builder`, and `developer project delivery`.
 
 ## Evidence that increases authority
