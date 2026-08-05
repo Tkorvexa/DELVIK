@@ -1,31 +1,228 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-NZ">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Project Readiness Checker | Tauranga Building Project | DELVIK</title>
-  <meta name="description" content="Check whether your Tauranga building project is ready for preliminary pricing, design input or a site feasibility review.">
-  <meta property="og:title" content="Project Readiness Checker | DELVIK"><meta property="og:description" content="Answer six practical questions and receive a tailored next-step recommendation."><meta property="og:url" content="https://delvik.co/project-readiness"><meta property="og:type" content="website"><meta property="og:image" content="https://delvik.co/assets/hero_build-1600.webp">
-  <link rel="canonical" href="https://delvik.co/project-readiness"><link rel="stylesheet" href="/style.css?v=20260805-2"><link rel="icon" href="/logos/favicon-delvik.svg">
-</head>
-<body class="build">
-<a class="skip-link" href="#main-content">Skip to content</a>
-<header class="site-header"><div class="nav"><a class="brand" href="/"><img src="/logos/delvik-logo-horizontal.svg" alt="DELVIK Build" class="brand__logo" width="180" height="46"></a><button type="button" class="nav__hamburger" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu"><span></span><span></span><span></span></button><nav id="navMenu"><a href="/#services">Services</a><a href="/projects">Projects</a><a href="/about">About</a><a href="/project-readiness" aria-current="page">Project check</a><a href="/contact-build">Contact</a></nav></div></header>
-<main id="main-content">
-<section class="page-hero"><div class="container page-hero__inner"><p class="eyebrow eyebrow--dark">Free two-minute check</p><h1>What is your project ready for?</h1><p>Answer six practical questions. You will receive an immediate next-step recommendation — without an unreliable square-metre price estimate.</p></div></section>
-<section class="section"><div class="container readiness-layout"><form id="readinessForm" class="readiness-card">
-<div class="readiness-progress"><span id="readinessProgress">1 of 6</span><div><i id="readinessBar"></i></div></div>
-<fieldset class="readiness-step is-active" data-step="1"><legend>What are you planning?</legend><label><input type="radio" name="type" value="new-build" required> New build</label><label><input type="radio" name="type" value="renovation"> Renovation</label><label><input type="radio" name="type" value="extension"> Extension</label><label><input type="radio" name="type" value="commercial"> Commercial work</label><label><input type="radio" name="type" value="development"> Property development</label></fieldset>
-<fieldset class="readiness-step" data-step="2"><legend>Do you control the site?</legend><label><input type="radio" name="site" value="owned" required> Yes — owned or under contract</label><label><input type="radio" name="site" value="identified"> Site identified, not secured</label><label><input type="radio" name="site" value="searching"> Still searching</label><label><input type="radio" name="site" value="existing-home"> It is my existing property</label></fieldset>
-<fieldset class="readiness-step" data-step="3"><legend>What design information exists?</legend><label><input type="radio" name="design" value="consented" required> Building consent approved</label><label><input type="radio" name="design" value="detailed"> Detailed plans / consent underway</label><label><input type="radio" name="design" value="concept"> Concept drawings only</label><label><input type="radio" name="design" value="none"> No plans yet</label></fieldset>
-<fieldset class="readiness-step" data-step="4"><legend>Has a budget range been established?</legend><label><input type="radio" name="budget" value="funded" required> Yes, and funding is available</label><label><input type="radio" name="budget" value="range"> A range exists, funding to confirm</label><label><input type="radio" name="budget" value="unknown"> Not yet</label></fieldset>
-<fieldset class="readiness-step" data-step="5"><legend>When would you like construction to start?</legend><label><input type="radio" name="timing" value="0-3" required> Within 3 months</label><label><input type="radio" name="timing" value="3-6"> 3–6 months</label><label><input type="radio" name="timing" value="6-12"> 6–12 months</label><label><input type="radio" name="timing" value="12plus"> More than 12 months / unsure</label></fieldset>
-<fieldset class="readiness-step" data-step="6"><legend>Where is the project?</legend><label><input type="radio" name="location" value="core" required> Tauranga / Mount Maunganui / Papamoa</label><label><input type="radio" name="location" value="western"> Western Bay of Plenty</label><label><input type="radio" name="location" value="other"> Elsewhere in New Zealand</label></fieldset>
-<div class="readiness-actions"><button type="button" class="btn btn--ghost" id="readinessBack" hidden>Back</button><button type="button" class="btn btn--dark" id="readinessNext">Continue</button></div>
-<p class="form-message" id="readinessMessage" hidden>Please select an answer to continue.</p>
-</form>
-<aside class="readiness-result" id="readinessResult" hidden aria-live="polite" tabindex="-1"><p class="section-kicker">Your personalised next step</p><h2 id="readinessTitle">Your project result</h2><p id="readinessText"></p><h3>Your action checklist</h3><ul id="readinessList" class="check-list"></ul><p class="readiness-result__note">Your answers will be carried into the enquiry form, so you will not need to enter them again.</p><a id="readinessCta" class="btn btn--dark" href="/contact-build" data-track="readiness_contact_click">Continue with my result</a><a class="btn btn--ghost" href="tel:+642904567964" data-track="readiness_call_click">Book a 15-minute call</a><button id="readinessRestart" class="text-button" type="button">Start again</button></aside>
-</div></section>
-</main>
-<footer class="simple-footer"><div class="container"><strong>DELVIK Build</strong><span>Tauranga · Bay of Plenty</span><a href="/contact-build">Project enquiries</a></div></footer>
-<script src="/analytics-config.js" defer></script><script src="/site.js?v=20260805-2" defer></script><script src="/nav.js?v=20260802-1" defer></script><script src="/readiness.js?v=20260805-2" defer></script>
-</body></html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Project Readiness Checker Tauranga | DELVIK</title>
+    <meta
+      name="description"
+      content="Check whether your Tauranga building project is ready for preliminary pricing, design input or a site feasibility review."
+    />
+    <meta property="og:title" content="Project Readiness Checker | DELVIK" />
+    <meta
+      property="og:description"
+      content="Answer six practical questions and receive a tailored next-step recommendation."
+    />
+    <meta property="og:url" content="https://delvik.co/project-readiness" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://delvik.co/assets/hero_build-1600.webp"
+    />
+    <link rel="canonical" href="https://delvik.co/project-readiness" />
+    <link rel="stylesheet" href="/style.css?v=20260805-2" />
+    <link rel="icon" href="/logos/favicon-delvik.svg" />
+  </head>
+  <body class="build">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <div class="nav">
+        <a class="brand" href="/"
+          ><img
+            src="/logos/delvik-logo-horizontal.svg"
+            alt="DELVIK Build"
+            class="brand__logo"
+            width="180"
+            height="46" /></a
+        ><button
+          type="button"
+          class="nav__hamburger"
+          id="navToggle"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="navMenu"
+        >
+          <span></span><span></span><span></span>
+        </button>
+        <nav id="navMenu">
+          <a href="/#services">Services</a><a href="/projects">Projects</a
+          ><a href="/about">About</a
+          ><a href="/project-readiness" aria-current="page">Project check</a
+          ><a href="/insights">Insights</a><a href="/contact-build">Contact</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main-content">
+      <section class="page-hero">
+        <div class="container page-hero__inner">
+          <p class="eyebrow eyebrow--dark">Free two-minute check</p>
+          <h1>What is your project ready for?</h1>
+          <p>
+            Answer six practical questions. You will receive an immediate
+            next-step recommendation — without an unreliable square-metre price
+            estimate.
+          </p>
+        </div>
+      </section>
+      <section class="section">
+        <div class="container readiness-layout">
+          <form id="readinessForm" class="readiness-card">
+            <div class="readiness-progress">
+              <span id="readinessProgress">1 of 6</span>
+              <div><i id="readinessBar"></i></div>
+            </div>
+            <fieldset class="readiness-step is-active" data-step="1">
+              <legend>What are you planning?</legend>
+              <label
+                ><input type="radio" name="type" value="new-build" required />
+                New build</label
+              ><label
+                ><input type="radio" name="type" value="renovation" />
+                Renovation</label
+              ><label
+                ><input type="radio" name="type" value="extension" />
+                Extension</label
+              ><label
+                ><input type="radio" name="type" value="commercial" />
+                Commercial work</label
+              ><label
+                ><input type="radio" name="type" value="development" /> Property
+                development</label
+              >
+            </fieldset>
+            <fieldset class="readiness-step" data-step="2">
+              <legend>Do you control the site?</legend>
+              <label
+                ><input type="radio" name="site" value="owned" required /> Yes —
+                owned or under contract</label
+              ><label
+                ><input type="radio" name="site" value="identified" /> Site
+                identified, not secured</label
+              ><label
+                ><input type="radio" name="site" value="searching" /> Still
+                searching</label
+              ><label
+                ><input type="radio" name="site" value="existing-home" /> It is
+                my existing property</label
+              >
+            </fieldset>
+            <fieldset class="readiness-step" data-step="3">
+              <legend>What design information exists?</legend>
+              <label
+                ><input type="radio" name="design" value="consented" required />
+                Building consent approved</label
+              ><label
+                ><input type="radio" name="design" value="detailed" /> Detailed
+                plans / consent underway</label
+              ><label
+                ><input type="radio" name="design" value="concept" /> Concept
+                drawings only</label
+              ><label
+                ><input type="radio" name="design" value="none" /> No plans
+                yet</label
+              >
+            </fieldset>
+            <fieldset class="readiness-step" data-step="4">
+              <legend>Has a budget range been established?</legend>
+              <label
+                ><input type="radio" name="budget" value="funded" required />
+                Yes, and funding is available</label
+              ><label
+                ><input type="radio" name="budget" value="range" /> A range
+                exists, funding to confirm</label
+              ><label
+                ><input type="radio" name="budget" value="unknown" /> Not
+                yet</label
+              >
+            </fieldset>
+            <fieldset class="readiness-step" data-step="5">
+              <legend>When would you like construction to start?</legend>
+              <label
+                ><input type="radio" name="timing" value="0-3" required />
+                Within 3 months</label
+              ><label
+                ><input type="radio" name="timing" value="3-6" /> 3–6
+                months</label
+              ><label
+                ><input type="radio" name="timing" value="6-12" /> 6–12
+                months</label
+              ><label
+                ><input type="radio" name="timing" value="12plus" /> More than
+                12 months / unsure</label
+              >
+            </fieldset>
+            <fieldset class="readiness-step" data-step="6">
+              <legend>Where is the project?</legend>
+              <label
+                ><input type="radio" name="location" value="core" required />
+                Tauranga / Mount Maunganui / Papamoa</label
+              ><label
+                ><input type="radio" name="location" value="western" /> Western
+                Bay of Plenty</label
+              ><label
+                ><input type="radio" name="location" value="other" /> Elsewhere
+                in New Zealand</label
+              >
+            </fieldset>
+            <div class="readiness-actions">
+              <button
+                type="button"
+                class="btn btn--ghost"
+                id="readinessBack"
+                hidden
+              >
+                Back</button
+              ><button type="button" class="btn btn--dark" id="readinessNext">
+                Continue
+              </button>
+            </div>
+            <p class="form-message" id="readinessMessage" hidden>
+              Please select an answer to continue.
+            </p>
+          </form>
+          <aside
+            class="readiness-result"
+            id="readinessResult"
+            hidden
+            aria-live="polite"
+            tabindex="-1"
+          >
+            <p class="section-kicker">Your personalised next step</p>
+            <h2 id="readinessTitle">Your project result</h2>
+            <p id="readinessText"></p>
+            <h3>Your action checklist</h3>
+            <ul id="readinessList" class="check-list"></ul>
+            <p class="readiness-result__note">
+              Your answers will be carried into the enquiry form, so you will
+              not need to enter them again.
+            </p>
+            <a
+              id="readinessCta"
+              class="btn btn--dark"
+              href="/contact-build"
+              data-track="readiness_contact_click"
+              >Continue with my result</a
+            ><a
+              class="btn btn--ghost"
+              href="tel:+642904567964"
+              data-track="readiness_call_click"
+              >Book a 15-minute call</a
+            ><button id="readinessRestart" class="text-button" type="button">
+              Start again
+            </button>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <footer class="simple-footer">
+      <div class="container">
+        <strong>DELVIK Build</strong><span>Tauranga · Bay of Plenty</span
+        ><a href="/contact-build">Project enquiries</a>
+      </div>
+    </footer>
+    <script src="/analytics-config.js" defer></script>
+    <script src="/site.js?v=20260805-2" defer></script>
+    <script src="/nav.js?v=20260802-1" defer></script>
+    <script src="/readiness.js?v=20260805-2" defer></script>
+  </body>
+</html>
