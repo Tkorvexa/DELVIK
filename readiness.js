@@ -59,11 +59,13 @@
     document.getElementById("readinessTitle").textContent = rec.title;
     document.getElementById("readinessText").textContent = rec.text;
     document.getElementById("readinessList").innerHTML = rec.list.map(function (item) { return "<li>" + item + "</li>"; }).join("");
-    const query = new URLSearchParams({ project: values.type || "", stage: values.design || "", readiness: rec.key });
+    const payload = Object.assign({}, values, { readiness: rec.key, recommendation: rec.title, checklist: rec.list });
+    try { sessionStorage.setItem("delvik_readiness", JSON.stringify(payload)); } catch (_) {}
+    const query = new URLSearchParams({ project: values.type || "", stage: values.design || "", readiness: rec.key, location: values.location || "", budgetReadiness: values.budget || "", timing: values.timing || "" });
     document.getElementById("readinessCta").href = "/contact-build?" + query.toString() + "#contact";
     form.hidden = true;
     result.hidden = false;
-    if (window.korvexaTrack) window.korvexaTrack("readiness_complete", { readiness_result: rec.key, project_type: values.type });
+    if (window.delvikTrack) window.delvikTrack("readiness_complete", { readiness_result: rec.key, project_type: values.type });
     result.focus();
   });
   back.addEventListener("click", function () { if (current > 0) { current -= 1; render(); } });
