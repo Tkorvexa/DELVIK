@@ -79,6 +79,78 @@
     });
   }
 
+  const projectPath = /^\/projects\//.test(location.pathname);
+  const projectImages = projectPath
+    ? Array.from(document.querySelectorAll(".case-study > img, .project-gallery img"))
+    : [];
+
+  if (projectImages.length) {
+    document.body.classList.add("project-lightbox-enabled");
+    const lightbox = document.createElement("div");
+    lightbox.className = "project-lightbox";
+    lightbox.hidden = true;
+    lightbox.setAttribute("role", "dialog");
+    lightbox.setAttribute("aria-modal", "true");
+    lightbox.setAttribute("aria-label", "Project photo gallery");
+    lightbox.innerHTML = '<button class="project-lightbox__control project-lightbox__close" type="button" aria-label="Close gallery">×</button><button class="project-lightbox__control project-lightbox__prev" type="button" aria-label="Previous photo">‹</button><figure class="project-lightbox__figure"><img class="project-lightbox__image" alt=""><figcaption class="project-lightbox__caption"></figcaption></figure><button class="project-lightbox__control project-lightbox__next" type="button" aria-label="Next photo">›</button>';
+    document.body.appendChild(lightbox);
+
+    const displayImage = lightbox.querySelector(".project-lightbox__image");
+    const caption = lightbox.querySelector(".project-lightbox__caption");
+    const closeButton = lightbox.querySelector(".project-lightbox__close");
+    const previousButton = lightbox.querySelector(".project-lightbox__prev");
+    const nextButton = lightbox.querySelector(".project-lightbox__next");
+    let currentImage = 0;
+    let returnFocus = null;
+
+    function showImage(index) {
+      currentImage = (index + projectImages.length) % projectImages.length;
+      const source = projectImages[currentImage];
+      displayImage.src = source.currentSrc || source.src;
+      displayImage.alt = source.alt || "Project photo";
+      caption.textContent = (source.alt || "Project photo") + " · " + (currentImage + 1) + " / " + projectImages.length;
+    }
+
+    function openGallery(index, trigger) {
+      returnFocus = trigger;
+      showImage(index);
+      lightbox.hidden = false;
+      document.body.classList.add("project-lightbox-open");
+      closeButton.focus();
+      track("project_gallery_open", { page_path: location.pathname, image_number: index + 1 });
+    }
+
+    function closeGallery() {
+      lightbox.hidden = true;
+      document.body.classList.remove("project-lightbox-open");
+      if (returnFocus) returnFocus.focus();
+    }
+
+    projectImages.forEach(function (image, index) {
+      image.tabIndex = 0;
+      image.setAttribute("role", "button");
+      image.setAttribute("aria-label", "Open photo " + (index + 1) + " of " + projectImages.length);
+      image.addEventListener("click", function () { openGallery(index, image); });
+      image.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openGallery(index, image);
+        }
+      });
+    });
+
+    closeButton.addEventListener("click", closeGallery);
+    previousButton.addEventListener("click", function () { showImage(currentImage - 1); });
+    nextButton.addEventListener("click", function () { showImage(currentImage + 1); });
+    lightbox.addEventListener("click", function (event) { if (event.target === lightbox) closeGallery(); });
+    document.addEventListener("keydown", function (event) {
+      if (lightbox.hidden) return;
+      if (event.key === "Escape") closeGallery();
+      if (event.key === "ArrowLeft") showImage(currentImage - 1);
+      if (event.key === "ArrowRight") showImage(currentImage + 1);
+    });
+  }
+
   if (!document.querySelector(".whatsapp-float")) {
     const whatsappFloat = document.createElement("a");
     whatsappFloat.className = "whatsapp-float";
