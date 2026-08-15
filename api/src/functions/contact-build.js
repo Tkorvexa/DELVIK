@@ -2,7 +2,7 @@ const { app } = require("@azure/functions");
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 const DEFAULT_FROM = "DELVIK Website <website@forms.delvik.co>";
-const CONTACT_TO = "build@delvik.co";
+const CONTACT_TO = "thiago@delvik.co";
 const MAX_FILE_COUNT = 3;
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const MAX_TOTAL_FILE_SIZE = 15 * 1024 * 1024;
@@ -262,7 +262,7 @@ async function contactBuildHandler(request, context) {
         context.error("RESEND_API_KEY is not configured.");
         return json(503, {
             success: false,
-            message: "Contact email is being configured. Please email build@delvik.co."
+            message: "Contact email is being configured. Please email thiago@delvik.co."
         });
     }
 
@@ -348,7 +348,7 @@ async function contactBuildHandler(request, context) {
             });
             return json(502, {
                 success: false,
-                message: "We could not send your enquiry. Please email build@delvik.co."
+                message: "We could not send your enquiry. Please email thiago@delvik.co."
             });
         }
 

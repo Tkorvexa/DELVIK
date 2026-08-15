@@ -106,7 +106,7 @@ test("sends a validated enquiry to the fixed DELVIK recipient", async () => {
     assert.equal(captured.options.headers.Authorization, "Bearer re_test_key");
     assert.equal(captured.options.headers["User-Agent"], "DELVIK-Contact-Form/1.0");
     assert.equal(payload.from, "DELVIK Website <website@forms.delvik.co>");
-    assert.deepEqual(payload.to, ["build@delvik.co"]);
+    assert.deepEqual(payload.to, ["thiago@delvik.co"]);
     assert.equal(payload.reply_to, VALID_BODY.email);
     assert.equal(payload.subject, "New DELVIK Build enquiry — New build");
     assert.match(payload.text, /Project location: Papamoa 3118/);
@@ -284,7 +284,7 @@ test("returns a safe error when the Resend key is missing", async () => {
 
     assert.equal(response.status, 503);
     assert.equal(response.jsonBody.success, false);
-    assert.match(response.jsonBody.message, /build@delvik\.co/);
+    assert.match(response.jsonBody.message, /thiago@delvik\.co/);
     assert.equal(called, false);
 });
 
@@ -305,7 +305,7 @@ test("returns failure when Resend rejects the email", async () => {
 
     assert.equal(response.status, 502);
     assert.equal(response.jsonBody.success, false);
-    assert.match(response.jsonBody.message, /build@delvik\.co/);
+    assert.match(response.jsonBody.message, /thiago@delvik\.co/);
 });
 
 test("escapes user content before placing it in the HTML email", async () => {
