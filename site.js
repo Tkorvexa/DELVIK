@@ -79,6 +79,21 @@
     });
   }
 
+  if (!document.querySelector(".whatsapp-float")) {
+    const whatsappFloat = document.createElement("a");
+    whatsappFloat.className = "whatsapp-float";
+    whatsappFloat.href = "https://wa.me/642904567964?text=Hi%20DELVIK%2C%20I%27d%20like%20to%20discuss%20a%20building%20project.";
+    whatsappFloat.target = "_blank";
+    whatsappFloat.rel = "noopener noreferrer";
+    whatsappFloat.setAttribute("aria-label", "Chat with DELVIK on WhatsApp");
+    whatsappFloat.title = "Chat on WhatsApp";
+    whatsappFloat.innerHTML = '<svg class="whatsapp-float__icon" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.04 2C6.57 2 2.13 6.43 2.13 11.9c0 1.93.5 3.77 1.46 5.4L2 22l4.84-1.55a9.83 9.83 0 0 0 5.2 1.45h.01c5.47 0 9.9-4.43 9.9-9.9C21.95 6.43 17.51 2 12.04 2zm0 18.08h-.01a8.2 8.2 0 0 1-4.2-1.16l-.3-.18-2.87.92.93-2.8-.2-.29a8.18 8.18 0 1 1 6.65 3.51z"></path><path d="M16.8 14.1c-.26-.13-1.52-.75-1.75-.84-.23-.09-.4-.13-.57.13-.17.26-.65.84-.8 1.01-.15.17-.29.2-.55.07-.26-.13-1.08-.4-2.06-1.28-.76-.67-1.27-1.5-1.42-1.76-.15-.26-.02-.4.11-.53.12-.12.26-.29.39-.44.13-.15.17-.26.26-.44.09-.17.04-.33-.02-.4-.07-.07-.57-1.37-.78-1.87-.2-.49-.41-.43-.57-.43h-.49c-.17 0-.44.06-.67.33-.23.26-.88.86-.88 2.1s.9 2.44 1.03 2.61c.13.17 1.77 2.7 4.28 3.79.6.26 1.06.42 1.42.54.6.19 1.15.16 1.58.1.48-.07 1.52-.62 1.73-1.22.21-.6.21-1.12.15-1.22-.06-.1-.23-.16-.49-.29z"></path></svg>';
+    document.body.appendChild(whatsappFloat);
+    whatsappFloat.addEventListener("click", function () {
+      track("whatsapp_click", { page_path: location.pathname, placement: "floating_button" });
+    });
+  }
+
   if (!document.querySelector(".mobile-conversion-bar")) {
     const mobileBar = document.createElement("nav");
     mobileBar.className = "mobile-conversion-bar";
