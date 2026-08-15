@@ -12,6 +12,7 @@
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.full{grid-column:1/-1}
     label{display:grid;gap:7px;font-weight:700;font-size:14px}input,textarea,select{width:100%;padding:11px;border:1px solid #b8b3aa;border-radius:7px;font:inherit}textarea{min-height:100px;resize:vertical}
     button{border:0;border-radius:7px;background:#151515;color:#fff;padding:12px 18px;font-weight:700;cursor:pointer}.secondary{background:#666}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .preview{width:100%;min-height:760px;border:1px solid #ccc;border-radius:8px;background:#fff;margin-top:16px}
     pre{white-space:pre-wrap;word-break:break-word;background:#161616;color:#f6f2e9;padding:16px;border-radius:8px;max-height:300px;overflow:auto}.note{padding:14px;background:#fff7d6;border-left:4px solid #c39200;margin-top:18px}
     @media(max-width:700px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
   </style>
@@ -36,12 +37,12 @@
         <label class="full">Fotos<input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
         <label class="full">Texto alternativo da foto principal<input id="alt" required placeholder="Descreva o que aparece na imagem"></label>
       </div>
-      <div class="actions"><button type="submit">Gerar página</button><button type="button" class="secondary" id="download" disabled>Baixar HTML</button><button type="button" class="secondary" id="copyCard" disabled>Copiar card para projects.html</button></div>
+      <div class="actions"><button type="submit">Gerar página</button><button type="button" class="secondary" id="preview" disabled>Visualizar página</button><button type="button" class="secondary" id="download" disabled>Baixar HTML</button><button type="button" class="secondary" id="copyCard" disabled>Copiar card para projects.html</button></div>
     </form>
-    <section class="output" id="output" hidden><h2>Prévia do código</h2><pre id="code"></pre><h2>Card para a listagem</h2><pre id="card"></pre></section>
+    <section class="output" id="output" hidden><h2>Prévia visual</h2><p>A visualização usa diretamente as fotos selecionadas e funciona antes de copiar os arquivos para o site.</p><iframe class="preview" id="previewFrame" title="Prévia da página gerada" hidden></iframe><h2>Prévia do código</h2><pre id="code"></pre><h2>Card para a listagem</h2><pre id="card"></pre></section>
   </main>
   <script>
-    const $=id=>document.getElementById(id);let generated="",card="";
+    const $=id=>document.getElementById(id);let generated="",card="",previewUrls=[];
     const esc=value=>String(value).replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
     const slugify=value=>value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
     $("title").addEventListener("input",()=>{if(!$("slug").dataset.edited)$("slug").value=slugify($("title").value)});$("slug").addEventListener("input",()=>$("slug").dataset.edited="1");
@@ -60,7 +61,20 @@
 ${gallery?`<section class="section section--alt"><div class="container project-gallery">${gallery}</div></section>`:""}
 <section class="cta"><div class="container cta__inner"><div><h2 class="cta__title">Planning a similar project?</h2><p class="cta__text">Send the location, plans and current stage for an initial review.</p></div><a class="btn btn--dark" href="/contact-build">Send plans for review</a></div></section></main><script src="/analytics-config.js" defer><\/script><script src="/site.js?v=20260805-2" defer><\/script><script src="/nav.js?v=20260802-1" defer><\/script></body></html>`;
       card=`<article class="project-card"><a href="/projects/${slug}"><img src="${base}${esc(hero)}" alt="${esc($("alt").value)}" loading="lazy"><h3>${esc($("title").value)}</h3><p>${esc($("description").value)}</p></a></article>`;
-      $("code").textContent=generated;$("card").textContent=card;$("output").hidden=false;$("download").disabled=false;$("copyCard").disabled=false;
+      $("code").textContent=generated;$("card").textContent=card;$("output").hidden=false;$("preview").disabled=false;$("download").disabled=false;$("copyCard").disabled=false;
+    });
+    $("preview").addEventListener("click",()=>{
+      previewUrls.forEach(URL.revokeObjectURL);previewUrls=[];
+      let previewHtml=generated
+        .replace('href="/style.css','href="../style.css')
+        .replaceAll('href="/','href="../')
+        .replaceAll('src="/logos/','src="../logos/');
+      Array.from($("photos").files).forEach(file=>{
+        const objectUrl=URL.createObjectURL(file);previewUrls.push(objectUrl);
+        previewHtml=previewHtml.replaceAll(`/assets/projects/${$("slug").value}/${file.name}`,objectUrl);
+      });
+      $("previewFrame").srcdoc=previewHtml;$("previewFrame").hidden=false;
+      $("previewFrame").scrollIntoView({behavior:"smooth",block:"start"});
     });
     $("download").addEventListener("click",()=>{const blob=new Blob([generated],{type:"text/html;charset=utf-8"});const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download=$("slug").value+".html";link.click();URL.revokeObjectURL(link.href)});
     $("copyCard").addEventListener("click",async()=>{await navigator.clipboard.writeText(card);$("copyCard").textContent="Card copiado"});
