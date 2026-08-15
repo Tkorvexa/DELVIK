@@ -21,7 +21,7 @@
   <main class="wrap">
     <h1>Gerador de página de projeto DELVIK</h1>
     <p class="lead">Preencha os dados, selecione as fotos e baixe o HTML pronto. O gerador não envia nada para a internet.</p>
-    <div class="note"><strong>Fluxo:</strong> coloque as imagens em <code>assets/projects/NOME-DO-PROJETO/</code>, gere o HTML e salve-o em <code>projects/NOME-DO-PROJETO.html</code>.</div>
+    <div class="note"><strong>Fluxo:</strong> coloque as imagens em <code>assets/projects/NOME-DO-PROJETO/</code>, crie a pasta <code>projects/NOME-DO-PROJETO/</code> e salve o HTML baixado dentro dela com o nome <code>index.html</code>.</div>
     <form id="generator">
       <div class="grid">
         <label>Título do projeto<input id="title" required placeholder="Ex.: Renovação residencial em Papamoa"></label>
@@ -76,7 +76,7 @@ ${gallery?`<section class="section section--alt"><div class="container project-g
       $("previewFrame").srcdoc=previewHtml;$("previewFrame").hidden=false;
       $("previewFrame").scrollIntoView({behavior:"smooth",block:"start"});
     });
-    $("download").addEventListener("click",()=>{const blob=new Blob([generated],{type:"text/html;charset=utf-8"});const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download=$("slug").value+".html";link.click();URL.revokeObjectURL(link.href)});
+    $("download").addEventListener("click",()=>{const blob=new Blob([generated],{type:"text/html;charset=utf-8"});const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download="index.html";link.click();URL.revokeObjectURL(link.href)});
     $("copyCard").addEventListener("click",async()=>{await navigator.clipboard.writeText(card);$("copyCard").textContent="Card copiado"});
   </script>
 </body></html>
