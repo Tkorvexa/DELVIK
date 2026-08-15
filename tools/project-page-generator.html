@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Gerador de projetos | DELVIK</title>
+  <style>
+    :root{font-family:Arial,sans-serif;color:#151515;background:#f3f1ec}*{box-sizing:border-box}
+    body{margin:0}.wrap{max-width:1100px;margin:auto;padding:32px 20px 64px}h1{margin:0 0 8px}.lead{color:#555;max-width:760px}
+    form,.output{background:#fff;border:1px solid #ddd7cc;border-radius:14px;padding:24px;margin-top:24px;box-shadow:0 8px 28px #0000000b}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.full{grid-column:1/-1}
+    label{display:grid;gap:7px;font-weight:700;font-size:14px}input,textarea,select{width:100%;padding:11px;border:1px solid #b8b3aa;border-radius:7px;font:inherit}textarea{min-height:100px;resize:vertical}
+    button{border:0;border-radius:7px;background:#151515;color:#fff;padding:12px 18px;font-weight:700;cursor:pointer}.secondary{background:#666}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    pre{white-space:pre-wrap;word-break:break-word;background:#161616;color:#f6f2e9;padding:16px;border-radius:8px;max-height:300px;overflow:auto}.note{padding:14px;background:#fff7d6;border-left:4px solid #c39200;margin-top:18px}
+    @media(max-width:700px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Gerador de página de projeto DELVIK</h1>
+    <p class="lead">Preencha os dados, selecione as fotos e baixe o HTML pronto. O gerador não envia nada para a internet.</p>
+    <div class="note"><strong>Fluxo:</strong> coloque as imagens em <code>assets/projects/NOME-DO-PROJETO/</code>, gere o HTML e salve-o em <code>projects/NOME-DO-PROJETO.html</code>.</div>
+    <form id="generator">
+      <div class="grid">
+        <label>Título do projeto<input id="title" required placeholder="Ex.: Renovação residencial em Papamoa"></label>
+        <label>Slug/arquivo<input id="slug" required placeholder="renovacao-residencial-papamoa"></label>
+        <label>Localidade<input id="location" required placeholder="Papamoa, Bay of Plenty"></label>
+        <label>Tipo de projeto<select id="type"><option>Residential construction</option><option>Renovation</option><option>House extension</option><option>Commercial construction</option><option>Design and build</option><option>Property development</option></select></label>
+        <label class="full">Resumo para Google<input id="description" maxlength="160" required placeholder="Resumo factual em até 160 caracteres"></label>
+        <label class="full">Contexto/desafio<textarea id="challenge" required></textarea></label>
+        <label class="full">Trabalho e abordagem<textarea id="approach" required></textarea></label>
+        <label class="full">Resultado factual<textarea id="result" required></textarea></label>
+        <label>Escopo<input id="scope" required placeholder="Carpentry, coordination and delivery"></label>
+        <label>Etapa/ano<input id="period" placeholder="Completed 2026"></label>
+        <label class="full">Fotos<input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
+        <label class="full">Texto alternativo da foto principal<input id="alt" required placeholder="Descreva o que aparece na imagem"></label>
+      </div>
+      <div class="actions"><button type="submit">Gerar página</button><button type="button" class="secondary" id="download" disabled>Baixar HTML</button><button type="button" class="secondary" id="copyCard" disabled>Copiar card para projects.html</button></div>
+    </form>
+    <section class="output" id="output" hidden><h2>Prévia do código</h2><pre id="code"></pre><h2>Card para a listagem</h2><pre id="card"></pre></section>
+  </main>
+  <script>
+    const $=id=>document.getElementById(id);let generated="",card="";
+    const esc=value=>String(value).replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+    const slugify=value=>value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+    $("title").addEventListener("input",()=>{if(!$("slug").dataset.edited)$("slug").value=slugify($("title").value)});$("slug").addEventListener("input",()=>$("slug").dataset.edited="1");
+    $("generator").addEventListener("submit",event=>{event.preventDefault();const slug=slugify($("slug").value);$("slug").value=slug;
+      const photos=Array.from($("photos").files).map(file=>file.name);const hero=photos[0]||"project-main.webp";const base=`/assets/projects/${slug}/`;
+      const gallery=photos.slice(1).map((name,index)=>`<img src="${base}${esc(name)}" alt="${esc($("title").value)} — project image ${index+2}" loading="lazy" decoding="async">`).join("\n");
+      generated=`<!doctype html>
+<html lang="en-NZ"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc($("title").value)} | DELVIK Build</title><meta name="description" content="${esc($("description").value)}">
+<link rel="canonical" href="https://delvik.co/projects/${slug}"><meta property="og:type" content="article"><meta property="og:title" content="${esc($("title").value)} | DELVIK"><meta property="og:description" content="${esc($("description").value)}"><meta property="og:url" content="https://delvik.co/projects/${slug}"><meta property="og:image" content="https://delvik.co${base}${esc(hero)}"><link rel="stylesheet" href="/style.css?v=20260805-2">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"${esc($("title").value)}","author":{"@type":"Person","name":"Thiago Cortes"},"publisher":{"@id":"https://delvik.co/#business"},"image":"https://delvik.co${base}${esc(hero)}","mainEntityOfPage":"https://delvik.co/projects/${slug}"}<\/script></head>
+<body class="build"><header class="site-header"><div class="nav"><a class="brand" href="/"><img src="/logos/delvik-logo-horizontal.svg" alt="DELVIK Build" class="brand__logo" width="180" height="46"></a><nav id="navMenu" aria-label="Primary"><a href="/projects">Projects</a><a href="/about">About</a><a href="/insights">Insights</a><a href="/contact-build">Contact</a></nav></div></header>
+<main><nav class="breadcrumbs container" aria-label="Breadcrumb"><a href="/">Home</a><span>›</span><a href="/projects">Projects</a><span>›</span><span>${esc($("title").value)}</span></nav>
+<section class="page-hero"><div class="container page-hero__inner"><p class="eyebrow eyebrow--dark">${esc($("type").value)} · ${esc($("location").value)}</p><h1>${esc($("title").value)}</h1><p>${esc($("description").value)}</p></div></section>
+<section class="section"><div class="container case-study"><img src="${base}${esc(hero)}" alt="${esc($("alt").value)}" width="1200" height="800"><div><h2>Project context</h2><p>${esc($("challenge").value)}</p><h2>Approach and delivery</h2><p>${esc($("approach").value)}</p><h2>Outcome</h2><p>${esc($("result").value)}</p><dl class="case-facts"><div><dt>Location</dt><dd>${esc($("location").value)}</dd></div><div><dt>Scope</dt><dd>${esc($("scope").value)}</dd></div><div><dt>Period</dt><dd>${esc($("period").value||"Current")}</dd></div></dl></div></div></section>
+${gallery?`<section class="section section--alt"><div class="container project-gallery">${gallery}</div></section>`:""}
+<section class="cta"><div class="container cta__inner"><div><h2 class="cta__title">Planning a similar project?</h2><p class="cta__text">Send the location, plans and current stage for an initial review.</p></div><a class="btn btn--dark" href="/contact-build">Send plans for review</a></div></section></main><script src="/analytics-config.js" defer><\/script><script src="/site.js?v=20260805-2" defer><\/script><script src="/nav.js?v=20260802-1" defer><\/script></body></html>`;
+      card=`<article class="project-card"><a href="/projects/${slug}"><img src="${base}${esc(hero)}" alt="${esc($("alt").value)}" loading="lazy"><h3>${esc($("title").value)}</h3><p>${esc($("description").value)}</p></a></article>`;
+      $("code").textContent=generated;$("card").textContent=card;$("output").hidden=false;$("download").disabled=false;$("copyCard").disabled=false;
+    });
+    $("download").addEventListener("click",()=>{const blob=new Blob([generated],{type:"text/html;charset=utf-8"});const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download=$("slug").value+".html";link.click();URL.revokeObjectURL(link.href)});
+    $("copyCard").addEventListener("click",async()=>{await navigator.clipboard.writeText(card);$("copyCard").textContent="Card copiado"});
+  </script>
+</body></html>

@@ -83,11 +83,15 @@
                     <form
                         class="contact-form"
                         id="buildForm"
-                        action="/api/contact/build"
+                        action="https://formsubmit.co/thiago@delvik.co"
                         method="POST"
                         enctype="multipart/form-data"
                     >
-                        <input class="honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+                        <input class="honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+                        <input type="hidden" name="_subject" value="New DELVIK project enquiry">
+                        <input type="hidden" name="_next" value="https://delvik.co/thank-you">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="_captcha" value="false">
                         <input id="leadAttribution" type="hidden" name="leadAttribution" value="">
                         <div class="contact-form__head">
                             <div class="contact-form__title">Assess your project</div>
@@ -338,10 +342,9 @@
                 : "";
         }
 
-        document.getElementById("buildForm").addEventListener("submit", async function (event) {
-            event.preventDefault();
-
+        document.getElementById("buildForm").addEventListener("submit", function (event) {
             if (currentContactStep === 0) {
+                event.preventDefault();
                 document.getElementById("buildNextBtn").click();
                 return;
             }
@@ -352,9 +355,6 @@
 
             message.hidden = true;
             message.textContent = "";
-            button.disabled = true;
-            button.textContent = "Sending...";
-
             const formData = new FormData(form);
             const files = formData
                 .getAll("projectFiles")
@@ -364,45 +364,19 @@
             const fileError = validateProjectFiles(files);
 
             if (fileError) {
+                event.preventDefault();
                 message.textContent = fileError;
                 message.hidden = false;
-                button.disabled = false;
-                button.textContent = "Send project for review";
                 return;
             }
-
-            try {
-                const response = await fetch(form.action, {
-                    method: "POST",
-                    headers: {
-                        "Accept": "application/json"
-                    },
-                    body: formData
-                });
-
-                const result = await response.json().catch(function () {
-                    return {};
-                });
-
-                if (!response.ok || result.success !== true) {
-                    throw new Error(result.message || "The enquiry could not be sent.");
-                }
-
-                if (window.delvikTrack) window.delvikTrack("qualified_lead", {
-                    project_type: form.elements.subject.value,
-                    project_stage: form.elements.projectStage.value,
-                    budget_range: form.elements.budget.value,
-                    has_files: files.length > 0
-                });
-                window.location.assign("/thank-you");
-            } catch (error) {
-                message.textContent = error instanceof Error && error.message
-                    ? error.message
-                    : "We could not send your enquiry. Please try again or email thiago@delvik.co.";
-                message.hidden = false;
-                button.disabled = false;
-                button.textContent = "Send project for review";
-            }
+            if (window.delvikTrack) window.delvikTrack("qualified_lead", {
+                project_type: form.elements.subject.value,
+                project_stage: form.elements.projectStage.value,
+                budget_range: form.elements.budget.value,
+                has_files: files.length > 0
+            });
+            button.disabled = true;
+            button.textContent = "Sending...";
         });
 
         const toggle = document.getElementById("navToggle");

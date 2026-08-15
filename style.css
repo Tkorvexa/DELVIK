@@ -9,6 +9,19 @@
   --accent: #d7c3a1;
 }
 
+.project-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.project-gallery img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 0.35rem;
+}
+
 *,
 *::before,
 *::after {
