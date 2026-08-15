@@ -62,23 +62,6 @@
 .project-lightbox__next { right: 16px; top: 50%; transform: translateY(-50%); }
 .project-lightbox-open { overflow: hidden; }
 
-.project-social-section { text-align: center; }
-.project-social-section h2 { margin-top: 0; }
-.project-socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-.project-socials a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 10px 18px;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  color: var(--ink);
-  font-weight: 700;
-  text-decoration: none;
-}
-.project-socials a:hover,
-.project-socials a:focus-visible { background: var(--ink); color: #fff; }
-
 @media (max-width: 700px) {
   .project-lightbox { padding: 66px 12px 82px; }
   .project-lightbox__image { max-height: calc(100vh - 170px); }
