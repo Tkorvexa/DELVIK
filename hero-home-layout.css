@@ -1,0 +1,77 @@
+/* Homepage hero layout correction — 2026-08-29 */
+
+@media (min-width: 901px) {
+  body.build .hero#build {
+    min-height: 520px;
+  }
+
+  body.build .hero#build .hero__inner {
+    padding-bottom: 52px;
+  }
+
+  body.build .hero#build .hero__sub {
+    max-width: 720px;
+    margin-bottom: 18px;
+  }
+
+  body.build .hero#build .hero__cta {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    gap: 14px;
+    margin-top: 4px;
+  }
+
+  body.build .hero#build .hero__cta .btn {
+    min-width: 215px;
+  }
+
+  body.build .hero#build .response-promise {
+    margin-top: 12px;
+    text-align: right;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 900px) {
+  body.build .hero#build {
+    min-height: 540px;
+  }
+
+  body.build .hero#build .hero__inner {
+    padding-bottom: 48px;
+  }
+
+  body.build .hero#build .hero__cta {
+    justify-content: flex-end;
+  }
+
+  body.build .hero#build .response-promise {
+    text-align: right;
+  }
+}
+
+@media (max-width: 760px) {
+  body.build .hero#build {
+    min-height: 620px;
+  }
+
+  body.build .hero#build .hero__inner {
+    padding-bottom: 48px;
+  }
+
+  body.build .hero#build .hero__cta {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  body.build .hero#build .hero__cta .btn {
+    width: 100%;
+  }
+
+  body.build .hero#build .response-promise {
+    margin-top: 12px;
+    text-align: left;
+  }
+}
