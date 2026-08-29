@@ -1046,6 +1046,47 @@ a {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+.cost-table-wrap {
+  margin: 28px 0;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.cost-table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 15px;
+  line-height: 1.45;
+}
+.cost-table th,
+.cost-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+.cost-table th {
+  background: #f4f4f2;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.cost-table tr:last-child td {
+  border-bottom: 0;
+}
+.cost-callout {
+  margin: 28px 0;
+  padding: 22px 24px;
+  border-left: 4px solid #111;
+  background: #f4f4f2;
+  border-radius: 0 10px 10px 0;
+}
+.cost-callout strong {
+  display: block;
+  margin-bottom: 6px;
+}
 .article-checklist {
   padding: 24px 28px;
   background: #f4f4f2;

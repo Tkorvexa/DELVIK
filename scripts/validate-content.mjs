@@ -5,7 +5,7 @@ const htmlFiles = [];
 
 function collect(directory) {
   for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-    if ([".git", "node_modules"].includes(entry.name)) continue;
+    if ([".git", "node_modules", "tools"].includes(entry.name)) continue;
     const item = path.join(directory, entry.name);
     if (entry.isDirectory()) collect(item);
     else if (entry.name.endsWith(".html")) htmlFiles.push(item);
