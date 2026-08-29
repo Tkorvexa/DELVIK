@@ -30,6 +30,20 @@
     margin-top: 12px;
     text-align: right;
   }
+
+  /* Homepage vertical rhythm: remove excessive blank space between sections. */
+  body.build main > .section {
+    padding-top: 46px;
+    padding-bottom: 46px;
+  }
+
+  body.build main > .section + .section {
+    padding-top: 20px;
+  }
+
+  body.build main > .section .divider {
+    margin-top: 30px;
+  }
 }
 
 @media (min-width: 761px) and (max-width: 900px) {
@@ -47,6 +61,19 @@
 
   body.build .hero#build .response-promise {
     text-align: right;
+  }
+
+  body.build main > .section {
+    padding-top: 42px;
+    padding-bottom: 42px;
+  }
+
+  body.build main > .section + .section {
+    padding-top: 20px;
+  }
+
+  body.build main > .section .divider {
+    margin-top: 28px;
   }
 }
 
@@ -73,5 +100,18 @@
   body.build .hero#build .response-promise {
     margin-top: 12px;
     text-align: left;
+  }
+
+  body.build main > .section {
+    padding-top: 38px;
+    padding-bottom: 38px;
+  }
+
+  body.build main > .section + .section {
+    padding-top: 18px;
+  }
+
+  body.build main > .section .divider {
+    margin-top: 26px;
   }
 }
