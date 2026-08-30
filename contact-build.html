@@ -377,6 +377,26 @@
                 budget_range: form.elements.budget.value,
                 has_files: files.length > 0
             });
+            fetch("https://delvik-crm.ttacortes.chatgpt.site/api/leads", {
+                method: "POST",
+                mode: "cors",
+                headers: { "Content-Type": "application/json" },
+                keepalive: true,
+                body: JSON.stringify({
+                    source: "website",
+                    name: form.elements.name.value,
+                    email: form.elements.email.value,
+                    phone: form.elements.phone.value,
+                    subject: form.elements.subject.value,
+                    projectLocation: form.elements.projectLocation.value,
+                    projectStage: form.elements.projectStage.value,
+                    budget: form.elements.budget.value,
+                    message: form.elements.message.value,
+                    external_id: "website:" + form.elements.email.value.toLowerCase()
+                })
+            }).catch(function () {
+                /* FormSubmit remains the delivery fallback if CRM ingestion is unavailable. */
+            });
             button.disabled = true;
             button.textContent = "Sending...";
         });

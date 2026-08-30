@@ -40,58 +40,62 @@
 
     <link rel="stylesheet" href="/style.css?v=20260805-3" />
     <link rel="icon" href="/logos/favicon-delvik.svg" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "What information does a builder need before providing a useful price?",
-        "description": "A practical checklist for preparing a New Zealand building project for builder review and pricing.",
-        "datePublished": "2026-08-05",
-        "dateModified": "2026-08-05",
-        "author": {
-          "@type": "Person",
-          "name": "Thiago Cortes",
-          "jobTitle": "Director and Licensed Building Practitioner",
-          "worksFor": { "@id": "https://delvik.co/#business" }
-        },
-        "publisher": { "@id": "https://delvik.co/#business" },
-        "image": "https://delvik.co/assets/project-a-720x400.webp",
-        "mainEntityOfPage": "https://delvik.co/insights/information-builder-needs-before-pricing",
-        "inLanguage": "en-NZ"
-      }
-    </script>
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What should I send a builder before asking for a price?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Send the project address, latest drawings, specifications, engineering and specialist documents, consent status, target timing, budget range, site photos and any known client-supplied items or exclusions. Clearly identify information that is still undecided."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can a builder price a project before the drawings are complete?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Concept information may support a buildability discussion or feasibility range, but a detailed quote usually requires coordinated drawings, specifications, engineering, selections and site information. The response should be labelled to match the information available."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do consent drawings provide everything needed for construction pricing?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Not always. Consent documents establish regulatory requirements, but pricing may also need finish schedules, product selections, trade scopes, site logistics, client-supplied items and a clear division of responsibilities."
-            }
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "What information does a builder need before providing a useful price?",
+      "description": "A practical checklist for preparing a New Zealand building project for builder review and pricing.",
+      "datePublished": "2026-08-05",
+      "dateModified": "2026-08-05",
+      "author": {
+        "@type": "Person",
+        "name": "Thiago Cortes",
+        "jobTitle": "Director and Licensed Building Practitioner",
+        "worksFor": {
+          "@id": "https://delvik.co/#business"
+        }
+      },
+      "publisher": {
+        "@id": "https://delvik.co/#business"
+      },
+      "image": "https://delvik.co/assets/project-a-720x400.webp",
+      "mainEntityOfPage": "https://delvik.co/insights/information-builder-needs-before-pricing",
+      "inLanguage": "en-NZ"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can a builder give a fixed quote from concept drawings?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Concept drawings can support an early feasibility discussion, but a reliable fixed quote normally needs a sufficiently defined scope, specifications, engineering and known site conditions. The price format should match the information available."
           }
-        ]
-      }
-    </script>
+        },
+        {
+          "@type": "Question",
+          "name": "What should I send a builder before asking for a price?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Send the property address, current architectural drawings, specifications or selections, available engineering, consent status, target timing and any known site constraints. Missing information should be identified rather than silently assumed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if some project information is still missing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The builder can identify the gaps and explain what can reasonably be priced at the current stage. Early allowances should remain clearly separated from a formal construction quote until the scope is sufficiently defined."
+          }
+        }
+      ]
+    }
+  ]
+}</script>
   </head>
   <body class="build">
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -266,21 +270,6 @@
             send the current information through the
             <a href="/contact-build">project enquiry form</a>.
           </p>
-          <section class="faq-section" aria-labelledby="pricing-information-faq">
-            <h2 id="pricing-information-faq">Frequently asked questions</h2>
-            <details>
-              <summary>What should I send a builder before asking for a price?</summary>
-              <p>Send the project address, latest drawings, specifications, engineering and specialist documents, consent status, target timing, budget range, site photos and any known client-supplied items or exclusions. Clearly identify information that is still undecided.</p>
-            </details>
-            <details>
-              <summary>Can a builder price a project before the drawings are complete?</summary>
-              <p>Concept information may support a buildability discussion or feasibility range, but a detailed quote usually requires coordinated drawings, specifications, engineering, selections and site information. The response should be labelled to match the information available.</p>
-            </details>
-            <details>
-              <summary>Do consent drawings provide everything needed for construction pricing?</summary>
-              <p>Not always. Consent documents establish regulatory requirements, but pricing may also need finish schedules, product selections, trade scopes, site logistics, client-supplied items and a clear division of responsibilities.</p>
-            </details>
-          </section>
           <section class="article-sources">
             <h2>Official sources</h2>
             <ul>
@@ -325,7 +314,7 @@
             building consent authority.
           </p>
         </div>
-      </article>
+      </article><section class="section section--alt seo-faq"><div class="container article-container"><h2>Frequently asked questions</h2><div class="grid"><article class="card"><h3>Can a builder give a fixed quote from concept drawings?</h3><p>Concept drawings can support an early feasibility discussion, but a reliable fixed quote normally needs a sufficiently defined scope, specifications, engineering and known site conditions. The price format should match the information available.</p></article><article class="card"><h3>What should I send a builder before asking for a price?</h3><p>Send the property address, current architectural drawings, specifications or selections, available engineering, consent status, target timing and any known site constraints. Missing information should be identified rather than silently assumed.</p></article><article class="card"><h3>What happens if some project information is still missing?</h3><p>The builder can identify the gaps and explain what can reasonably be priced at the current stage. Early allowances should remain clearly separated from a formal construction quote until the scope is sufficiently defined.</p></article></div></div></section>
       <section class="cta">
         <div class="container cta__inner">
           <div>

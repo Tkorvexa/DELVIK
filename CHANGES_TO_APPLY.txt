@@ -1,0 +1,4 @@
+DELETE this obsolete file from the repository if it exists:
+- projects/new-build/new-build.html
+
+The clean project URL is /projects/new-build.
