@@ -14,7 +14,8 @@
 ## Initial 12-week topic queue
 
 1. **Published:** What information does a builder need before providing a useful price?
-2. Building consent versus builder pricing: what each stage can actually confirm
+2. **Published:** Cladding & Window Details: 7 Things That Help Prevent Leaks (Site Details / keyword: CLADDING)
+3. Building consent versus builder pricing: what each stage can actually confirm
 3. The hidden budget risks in an existing New Zealand home renovation
 4. Provisional sums and variations: what owners should understand before signing
 5. Design and build versus a traditional tender: which route suits your project?
@@ -64,3 +65,8 @@ Each weekly Insight should generate one coordinated Instagram content package:
 - Friday: publish Stories and capture recurring questions for future Insights.
 
 Track reach, profile visits, saves, shares, link clicks and qualified enquiries. Use saves and qualified enquiries as stronger editorial signals than likes alone.
+
+
+## Content-to-enquiry rule
+
+Every new Insight must now have a paired social keyword, DM response and commercial internal-link path. See `CONTENT_TO_ENQUIRY_SYSTEM.md`. This prevents articles from becoming isolated SEO assets and turns social engagement into a repeatable site-to-enquiry funnel.
