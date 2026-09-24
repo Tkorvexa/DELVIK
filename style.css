@@ -1585,3 +1585,23 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+.article-detail-figure {
+  margin: 28px 0 36px;
+}
+.article-detail-figure img {
+  display: block;
+  width: min(100%, 480px);
+  height: auto;
+  margin: 0 auto;
+  border-radius: 14px;
+  box-shadow: 0 16px 45px rgba(20, 20, 20, 0.10);
+}
+.article-detail-figure figcaption {
+  max-width: 480px;
+  margin: 10px auto 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
