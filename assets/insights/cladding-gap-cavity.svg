@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1200" role="img" aria-labelledby="t d">
+<title id="t">GAP / CAVITY</title><desc id="d">Preserve the specified space for drainage, drying and movement.</desc>
+<defs>
+  <linearGradient id="wood" x1="0" x2="1"><stop offset="0" stop-color="#8d552b"/><stop offset=".5" stop-color="#c38245"/><stop offset="1" stop-color="#9b6135"/></linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#99bfd5"/><stop offset=".55" stop-color="#263944"/><stop offset="1" stop-color="#11191e"/></linearGradient>
+  <filter id="shadow"><feDropShadow dx="0" dy="12" stdDeviation="16" flood-opacity=".18"/></filter>
+</defs>
+<rect width="960" height="1200" fill="#f4f1ea"/>
+<rect x="55" y="70" width="850" height="1060" rx="28" fill="#111417"/>
+<!-- timber cladding -->
+<rect x="95" y="120" width="330" height="930" fill="url(#wood)"/>
+<g stroke="#6f421f" stroke-width="8" opacity=".65">
+  <line x1="165" y1="120" x2="165" y2="1050"/><line x1="250" y1="120" x2="250" y2="1050"/><line x1="335" y1="120" x2="335" y2="1050"/>
+</g>
+<g fill="#d7d7d7"><circle cx="145" cy="360" r="8"/><circle cx="315" cy="620" r="8"/><circle cx="225" cy="910" r="8"/></g>
+<!-- black aluminium window -->
+<rect x="410" y="190" width="430" height="675" rx="5" fill="#080a0c"/>
+<rect x="448" y="228" width="354" height="560" fill="url(#glass)"/>
+<rect x="420" y="820" width="430" height="62" fill="#1b1f22"/>
+<rect x="390" y="882" width="480" height="42" fill="#111417"/>
+<!-- jamb / cavity hint -->
+<rect x="390" y="190" width="20" height="692" fill="#262b2f"/>
+<rect x="375" y="190" width="10" height="692" fill="#d6c2a4" opacity=".85"/>
+<rect x="368" y="190" width="16" height="692" fill="#5bb7e8" opacity=".35"/>
+<!-- callout -->
+<path d="M 720 250 C 700 360, 650 430, 380 650" fill="none" stroke="#f4f1ea" stroke-width="8" stroke-linecap="round"/>
+<circle cx="380" cy="650" r="15" fill="#f4f1ea"/>
+<g filter="url(#shadow)">
+  <rect x="535" y="120" width="330" height="210" rx="22" fill="#f8f5ee"/>
+  <circle cx="565" cy="155" r="52" fill="#b84a1d" stroke="#fff" stroke-width="6"/>
+  <text x="565" y="176" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="62" font-weight="700" fill="#fff">5</text>
+  <text x="630" y="165" font-family="Arial,Helvetica,sans-serif" font-size="42" font-weight="800" fill="#111417">GAP / CAVITY</text>
+  <foreignObject x="565" y="205" width="270" height="105"><div xmlns="http://www.w3.org/1999/xhtml" style="font:26px/1.35 Arial,Helvetica,sans-serif;color:#34393d">Preserve the specified space for drainage, drying and movement.</div></foreignObject>
+</g>
+<text x="95" y="1100" font-family="Arial,Helvetica,sans-serif" font-size="24" fill="#d7d0c4">DELVIK · Building detail guide</text>
+</svg>
